@@ -4,6 +4,18 @@
 \usepackage{mathchars}
 \usepackage{setspace}
 \usepackage[toc]{appendix}
+%neu hinzu
+\usepackage{subcaption}
+\usepackage{extarrows}
+\usepackage{nicefrac}
+\usepackage[ngerman]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{bm}
+\usepackage{dsfont}
+\usepackage{natbib} %[round,comma,authoryear]
+\bibliographystyle{humannat}
+% styles: "plain","unsrt","alpha",
 
 \input{blocked.sty}
 \input{uhead.sty}
@@ -100,8 +112,66 @@
 \newcommand{\sync}[1]{\raisebox{-1.0ex}{$\;\stackrel{\coop}{\scriptscriptstyle
 #1}\,$}}
 
-\newtheorem{definition}{Definition}[chapter]
-\newtheorem{theorem}{Theorem}[chapter]
+
+% 1. format for definition-equality ":=" via \defeq
+\makeatletter
+\newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                     =}
+\makeatother
+
+% 2. format for definition-equality ":=" via := (kann eigentlich weg, da 1. Format reicht)
+\mathchardef\ordinarycolon\mathcode`\:
+\mathcode`\:=\string"8000
+\begingroup \catcode`\:=\active
+  \gdef:{\mathrel{\mathop\ordinarycolon}}
+\endgroup
+
+
+% define new theoremstyle for algorithm headers
+\newtheoremstyle{algodd} % name of the style to be used
+  {} % measure of space to leave above the theorem. E.g.: 3pt oder \topsep
+  {} % measure of space to leave below the theorem. E.g.: 3pt
+  {\upshape} % name of font to use in the body of the theorem, e.g. \itshape for italic oder \em
+  {8pt}     % measure of space to indent e.g. \parindent oder "8pt"
+  {\bfseries} % name of head font, e.g. \bfseries oder \bf
+  {}    % punctuation after theorem head -> between head and body
+  {\newline} % space after theorem head; { } = normal interword space {\newline} = linebreak, {.5em} = Half the size of Letter M?
+  {\thmname{#1}\thmnumber{ #2}:\thmnote{ #3}} %headspec, empty=normal, hier note field in Bold, Sollen die Klammern weg, dann am Ende "(#3)" statt "#3" setzen.
+% {\thmname{#1}\thmnumber{\addtocounter{thm}{-1} #2$^\prime$}\thmnote{\textnormal{ (#3)}}}
+
+% define new theoremstyle for bold definition headers
+\newtheoremstyle{theoremdd} % name of the style to be used
+  {} % measure of space to leave above the theorem. E.g.: 3pt oder \topsep
+  {} % measure of space to leave below the theorem. E.g.: 3pt
+  {\upshape} % name of font to use in the body of the theorem, e.g. \itshape for italic oder \em
+  {16pt}     % measure of space to indent e.g. \parindent oder "8pt"
+  {\bfseries} % name of head font, e.g. \bfseries oder \bf
+  {:}    % punctuation after theorem head -> between head and body
+  { }      % space after theorem head; { } = normal interword space {\newline} = linebreak, {.5em} = Half the size of Letter M?
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} %headspec, empty=normal, hier note field in Bold, Sollen die Klammern weg, dann am Ende "#3" statt "(#3)" setzen.
+% {\thmname{#1}\thmnumber{\addtocounter{thm}{-1} #2$^\prime$}\thmnote{\textnormal{ (#3)}}}
+
+
+\theoremstyle{theoremdd}
+%\theoremstyle{definition} % mit "definition" wäre es klassischer style 
+\newtheorem{definition}{Def.}[subsection]
+% Bsp. sollen gleichen Zähler haben wie Def., daher "[definition]" in der Mitte statt "[subsection]" am Ende zu deklarieren, dann hätten Bsp. eigenen Counter
+% auch den style "definition" teilen sich Bsp. mit den Def.
+\newtheorem{example}[definition]{Bsp.}
+% Bemerkungen nicht nummeriert
+\newtheorem*{remark}{Bem.}
+
+\theoremstyle{algodd}
+\newtheorem{algorithm}{Algorithmus}[chapter]
+
+\theoremstyle{plain} % "plain" = kursiver Text
+\newtheorem{theorem}{Satz}[chapter]
+% the counter of this new environment will be reset every time a new theorem environment is used
+\newtheorem{corollary}{Korollar}[theorem]
+% same counter as theorems
+\newtheorem{lemma}[theorem]{Lemma}
+
 
 \newcommand{\Figref}[1]{Figure~\ref{#1}}
 \newcommand{\fig}[3]{
