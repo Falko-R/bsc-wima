@@ -1,0 +1,450 @@
+\chapter{Räumliche Regression}
+
+Regressionsmodelle stellen die primäre Klasse zur räumlichen Modellanalyse dar. 
+Der Unterschied in der räumlichen Struktur zwischen stetigen Punktlokationen der Geostatistik und 
+diskreten Gebietsdaten/Raumeinheiten der Raumanalyse(?)als Partition des Gesamtraumes spiegelt sich auch in den Regressionsmodellen wieder. 
+Der Georegression liegt die Stationarität der Kovarianz im Raum als fundamentale Anahme zugrunde. 
+Die Verteilungsmodellierung der Residuen erfolgt mittels Variogram und zugehörigen Kovariogrammen.
+Im Gegensatz dazu wird im folgenden die Annahme der Stationarität ersetzt durch 
+räumlich autoregressive Annahmen auf Grundlage der Gewichtsmatrix. 
+% Deren spezifische Details umfasst zum einen die Konstruktion der Regressionsresiduen 
+% im räumlich bezogenen Fehlermodell (spatial error model).
+% Zum anderen die verzogenen Regressoren(?) im räumlich verzogenen Modell (spatial lag model)
+% [SEM und SLM zu spezifisch hier, besser SAR und CAR unterscheiden]
+
+Peter Whittle forschte ab 1949 an der Zeitreihenanalyse und übernahm eine analoge 
+Theorie für stationäre Gaußprozesse auf räumliche Prozesse (Whittle 1954). Gani S.187 enthält eine 
+persönliche Zusammenfassung aus Whittles Sicht und seiner Zusammenarbeit mit Matern, Bartlett und weiteren bekannten
+Namen des Gebietes der Stochastik. 
+
+\section{Spatial Statistics – Allgemeine Räumliche Autoregression}
+
+Im folgenden werden räumliche (Auto-)regressionsmodelle (engl. spatial autoregressive models) eingeführt. 
+Wie in Kapitel XX erläutert, ist die Annahme unabhängig identisch verteilter Beobachtung aufgrund 
+(inhärenter/impliziter) räumlicher Abhängigkeiten nicht zweckmäßig/gerechtfertigt (heteroscedacticity?). 
+Zudem muss der Einfluss räumlicher Autokorrelation getrennt werden von den (impliziten/inhärenten?) 
+räumlichen/lokalen Unterschieden der (räumlichen/multivariaten) Verteilung.
+
+Im folgenden wird die relevante Menge der Raumeinheiten $\left\{ R_1,\ldots,R_n \right\}$ durch ihre 
+Indizes $i=1,\ldots,n$ vereinfacht repräsentiert. Insbesondere wird es sich immer um 
+die Stichprobeneinheiten handeln. Eine uamfassendere Grundgesamtheit ist nicht gegeben [?].
+Als lineares Grundmodell für Abhängigkeiten zwischen einzelnen Einheiten dient
+
+\begin{equation} \label{eq-6.1:reg-mod-gen}
+    Y_{i}=\beta_{0}+\sum_{j=1}^{k} \beta_{j} x_{ij} +e_{i} \, , \, i=1,\ldots,n
+\end{equation}
+mit $Y_i$ als relevantes Attribut für jede Raumeinheit $i$ und $(x_{ij}:j=1,\ldots ,k)$ als Menge der
+Erklärungsattribute von $i$ welche den Wert $Y_{i}$ beeinflussen. Der Hauptunterschied zur Georegression ist
+die Modelierung von $e_{i}$ über ein eigenes explizites lineares Model statt als zufälligen Fehlerterm $\varepsilon_{i}$.
+
+Korrelierte Beobachtungen werden in Matrixschreibweise über Zusammenhang \eqref{eq-6.2:reg-mod} modelliert.
+
+\begin{equation} \label{eq-6.2:reg-mod}
+    \mathds{Y} = \mathds{X}^{\intercal} \beta + \nu 
+\end{equation}
+%\mathds{1}
+%\bbbe
+%\mathbb{I}
+
+Die Störgröße $\nu$ wird als multinomial verteilter Zufallsvektor aus standardnormalverteilten(?) Fehlertermen 
+mit $\bbbe[\nu]=0$ angenommen, sodass
+\begin{equation*}
+    \bbbe[Y]=\mathds{X} \beta
+\end{equation*}
+gilt.
+Während die Störterme $\nu$ im klassischen Regressionsmodell als i.i.d angenommen werden, benötigen wir nunmehr 
+eine Möglichkeit, räumlich auftretende Korrelationsstrukturen in dieses Modell zu integrieren. Zum einen 
+lässt sich der Fehlerprozess als \emph{raumstrukturell autoregressiver Prozess} 
+(engl. spatially autoregressive process - SAR)
+\begin{equation*}
+    \nu = \rho W \nu + \varepsilon
+\end{equation*}
+erfassen. Zum anderen ist eine Integration als \emph{raumstruktureller Gleitmittelprozess} (engl. spatially 
+moving average process - SMA)
+\begin{equation*}
+    \nu = \rho W \varepsilon + \varepsilon
+\end{equation*}
+denkbar mit Gewichtsmatrix $W$, Autoregressionsparameter $\rho$ und $\varepsilon$ als 
+Vektor von i.i.d.-verteilten Störgrößen. 
+
+
+Die Struktur der Korrelation zwischen Gebieten wird durch eine bestimmte(?) Varianzmatrix $V$ erfasst.
+Der (lineare) Trend $Y = X^{T} \beta$ wird in linearer 
+Abhängigkeit von (unabhängiger, exogener) Erklärungsvariable $X$ bzw. mehreren 
+Kovariablen (engl. covariate, control variable) $X_1,\ldots,X_k$ modelliert.  
+
+Liegt als Output keine (multivariate) Normalverteilung vor, kann eine Transformation der 
+abhängigen Reaktionsvariable bzw. Zielgröße (Regressand) helfen. 
+
+Es folgen verschiedene Ansätze von Korrelationsstrukturen, verwirklicht in den Modellklassen 
+der Simultaneous Autoregressive Models (SAR) und Conditionally Autoregressive Models (CAR) sowie....
+
+\section{Simultaneous Autoregressive Models - SAR}
+
+Das Hauptziel ist die Modellierung der Kovarianzstruktur von $\nu$ unter Berücksichtigung der 
+räumlichen Abhängigkeiten zwischen den Instanzen.
+Die räumliche Gewichtsmatrix $W=[w_{ij}:i,j=1,\ldots,n]$ 
+erfasst die diskrete Raumstruktur und räpresentiert oft ein Maß räumlicher Nähe. Größere Werte $w_{ij}$ 
+bedeuten hierbei größere Nähe und Einfluss von $i$ und $j$ aufeinander. Jedes Residuum $e_{i}$ wird 
+durch die Residuen der Nachbargebiete $j$ mit positiven paarweisen Raumgewichten $w_{ij}$ beeinflusst. 
+Diesen Einfluss räpresentiert das lineare Teilmodell
+\begin{equation} \label{eq-6.2:reg-st}
+    \nu_{i}=\sum_{j=1 ; j \neq i}^{n} \alpha(w_{ij}) \nu_{j} + \varepsilon_{i}
+\end{equation}   
+mit $\alpha(w_{ij})$ als Einflussfunktion und $\varepsilon_{i}$ als Anteil des Residuums, welcher 
+nicht durch andere Einheiten beeinflusst wird. Da die Gewichtsmatrix bereits große Flexibilität durch 
+die Spezifikation der Raumstruktur bietet, wird die Funktion $\alpha$ auf die einfachste 
+denkbare Form eines räumlich unabhängigen Skalierungsfaktors $\rho$ reduziert.
+Folglich resultiert aus \eqref{eq-6.2:reg-st} der Zusammenhang
+\begin{equation}\label{eq-6.3:reg-err}
+    \nu_{i}=\rho \sum_{j = 1}^{n} w_{ij} \nu_{j} + \varepsilon_{i} \, , \quad 
+    \varepsilon_{i} \sim \mathcal{N}(0,\sigma^{2}) \, , \, i= 1,\ldots,n
+\end{equation}
+als lineares Regressionsmodell (ohne Interzeptor) für jedes Residuum $\nu_{i}$ im Regress auf 
+seine Nachbarn $\nu_{j}$ mit Koeffizienten $\rho \, w_{ij}$. Aufgrund dieser Regression der 
+Residuen auf \glqq sich selbst \grqq{} wird dieses Teilmodell 
+als \emph{Räumlich Autoregressives Modell der Residuen} 
+(engl. spatial autoregressive model of residual dependencies) 
+bezeichnet (Whittle 1954), inspiriert von den Begrifflichkeiten der Zeitreihentheorie. 
+Selbstregression durch individuelle Residuen wird durch Voraussetzung $w_{ii}=0$ verhindert. Alternativ kann für die 
+Summation auch $i \neq j$ vorausgesetzt werden.
+
+Nehmen wir für die intrinsischen Restkomponenten $\varepsilon_{i}$ eine \emph{i.i.d.} Verteilung gemäß 
+\begin{equation} \label{eq-6.4:err-err}
+    \varepsilon_{i} \sim \mathcal{N}(0,\sigma^{2}) \, , \, i=1,\ldots,n
+\end{equation}  
+an, so gilt $\bbbe[\varepsilon_{r}]=0$ sowie $\bbbe[\varepsilon_{r}\varepsilon_{s}]=0$ 
+und $Var(\varepsilon_{r})=\sigma_{r}^{2}$. 
+Parameter $\rho$ steuert den Grad der Regression(?). 
+Für $\rho = 0$ wird jedes Residuum $e_{i}$ auf seine eigene intrinsische 
+Komponente $\varepsilon_{i}$ reduziert und räumliche Abhängigkeiten verschwinden ganz. 
+In diesem Fall wird Modell \eqref{eq-6.2:reg-mod} zu einem einfachen linearen Regressionsmodell reduziert.
+Für große $\rho$ werden die (positiven und negativen) räumlichen 
+Abhängigkeiten dominanter. Daher wird $\rho$ auch als \emph{Parameter räumlicher Abhängigkeit} 
+bezeichnet. 
+Außerdem muss für beliebige Paare $ij$ und $kh$ mit positiven räumlichen 
+Gewichten $w_{ij},w_{kh}>0$ und einem nicht verschwindenden Parameter $\rho \neq 0$, 
+\begin{equation*}
+    \frac{\rho \, w_{ij}}{\rho \, w_{kh}} = \frac{w_{ij}}{w_{kh}}
+\end{equation*}
+gelten. Somit ist die relative Stärke ihrer räumlichen Dependenz ausschließlich durch ihre Gewichte bestimmt.
+Das Modell bietet somit eine natürliche Zuordnung/Unterteilung der Verantwortlichkeit, 
+da $\rho$ das allgemeine Niveau räumlicher Abhängigkeit bestimmt und die räumliche 
+Struktur der Gewichtsmatrix $W$ ihre relative Stärke zwischen individuellen Paaren räumlicher Einheiten.
+
+Zusammen formen \eqref{eq-6.3:reg-err} und \eqref{eq-6.4:err-err} 
+das \emph{Autoregressive Modell der Residuen} (engl. autoregressive residuals?) nach Whittle (1954)
+in Matrixschreibweise, 
+\begin{equation}\label{eq-6.5:reg-vec}
+    \nu=\rho W \nu + \varepsilon \quad , \, \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n}) \, , 
+    \, \operatorname{diag}(W)=0
+\end{equation}
+Entwickelt wurde diese Form durch Ord (1975) ?, welcher auch vom 
+räumlich autoregressiven Prozess erster Ordnung sprach.
+Die Modellgleichung $\nu=\rho W \nu + \varepsilon$ lässt sich direkt nach $\varepsilon$ 
+umstellen und ergibt somit $(\mathds{I}_{n} -\rho W) \nu =\varepsilon$. 
+Sofern Inverse $(\mathds{I}_{n} -\rho W)^{-1}$ existiert, lässt sich die 
+folgende Lösung für $\nu$ in reduzierter Form erhalten
+\begin{equation} \label{eq-6.6:reg-red}
+    \nu=(\mathds{I}_{n} -\rho W)^{-1} \varepsilon \, , \, 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n}) \, , \, \operatorname{diag}(W)=0
+\end{equation}
+
+
+\subsection{Räumlich fehlerbezogenes Modell - SEM}
+
+Die Integration der autoregressiven Residuen aus \eqref{eq-6.5:reg-vec} in das ursprüngliche 
+Regressionsmodell \eqref{eq-6.2:reg-mod} der Form $Y=X \beta + \nu$ liefert nun das 
+Gesamtmodell 
+\begin{equation} \label{eq-6.7:sem-mod}
+    Y=X \beta + \nu \, , \, \nu=\rho W \nu + \varepsilon \, , \, 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n}) \, , \, 
+    \operatorname{diag}(W)=0
+\end{equation}
+und wird als \emph{räumlich fehlerbezogenes Modell} 
+(engl. spatial error model - SEM) mit räumlich autokorrelierten Fehlertermen/Störungen bzw. 
+raumstruktureller Autokorrelation im Fehlerterm bezeichnet. 
+Diese Form stellt die direkte Umsetzung/Anwendung des Räumlich Autoregressiven Modells auf die Fehlerterme 
+dar. Abweichend vom klassischen Regressionsmodell werden die Störgrößen $\varepsilon$ nicht 
+als i.i.d angenommen, sondern folgen einem räumlich autokorrelierten Prozess.
+Zugrunde liegt die Annahme, dass alle räumlichen Abhängigkeiten in den 
+unbeobachteten Fehlertermen $\nu$ liegen, woher auch der Name rührt. 
+[?]Wir gehen davon aus, mit den Regressoren(?) in $X$ nicht die gesamte 
+räumliche Variabilität erklären zu können bzw. die fehlenden 
+erklärenden Faktoren nicht zu kennen und daher durch $\nu$ abzudecken. [?]
+
+\subsubsection{Simultanitätsstruktur}
+
+Alternativ erhalten wir mit der Umstellung $\nu=Y-X \beta$ 
+bzw. $\nu_{i}=Y_{i}-\sum_{j=1}^{k} \beta_{j} x_{ij}$ mit der 
+Form $Y=X \beta + \rho W (Y-X \beta) + \epsilon$ das \emph{Simultan Spezifizierte Autoregressive Modell} 
+(engl. simultaneous autoregressive model -SAR). Die Bezeichnung 
+der \glqq simultanen Spezifikation \grqq{} bezieht sich dabei auf die Anwendung der Modellgleichung auf 
+jede Lokation $i$ gemäß
+\begin{equation}
+    Y_i = \beta_{0} + \sum_{j=1}^{k} 
+    \beta_{j} x_{ij} + \rho \sum_{h=1}^{n} w_{ih} \left[ Y_{h}- \sum_{j=1}^{k} \beta_{j} x_{hj} \right] + \varepsilon_{i} \, , \quad
+    \varepsilon_{i} \sim \mathcal{N}(0,\sigma^{2}) \, , \, i=1,\ldots,n
+\end{equation}
+unter simultaner Variabilität von $Y_{i}$ und $Y_{h}$. Derartige Interdependenzen sorgen für zusätzliche Komplexität 
+und grenzen diese Modellklasse von den \emph{Bedingt Autoregressiven Modellen} 
+(engl. conditional autoregressive models - CAR) aus Abschnitt XX ab.
+
+In Matrixschreibweise lässt sich das Modell in die Kurznotation
+\begin{equation*}
+    Y=X \beta + \rho W (Y-X \beta) + \epsilon  \Rightarrow  (\mathds{I}_{n}-\rho W) (Y-X \beta) = \varepsilon
+\end{equation*}
+umwandeln, wobei $(\mathds{I}_{n}-\rho W)$ für ein wohldefiniertes Modell regulär (nicht-singulär) sein muss.
+(Einige Quellen wie Cressie 1993 (S.440), Waller,Gotway 2004 (S.363) und Bivand 2013 (S.293) fassen $\rho W$ unter einer Matrix $B$ zusammen.)
+
+Daraus wird die Varianz-Kovarianzmatrix von $Y$ durch
+\begin{equation*}
+    \Sigma_{Y}=Var(Y) = (\mathds{I}_{n}-\rho W)^{-1} \, \Sigma_{\varepsilon} \, (\mathds{I}_{n}-\rho W^{\intercal})^{-1}
+\end{equation*}
+abgeleitet und mit $\bbbe[Y]=X \beta$ unterliegt $Y$ einer multivariaten Normalverteilung. 
+Oftmals wird $\Sigma_{\varepsilon}=\sigma^{2} \mathds{I}_{n}$ gesetzt und somit die Varianz-Kovarianzmatrix zu
+\begin{equation*}
+    \Sigma_{Y}=Var(Y) = \sigma^{2} \, (\mathds{I}_{n}-\rho W)^{-1} \, (\mathds{I}_{n}-\rho W^{\intercal})^{-1}
+\end{equation*}
+vereinfacht. Hierbei sind asymmetrische GEwichtsmatrizen $W$ zulässig, diese werden aber in der Praxis 
+oft als symmetrisch angenommen (Bivand S. 294).
+
+\subsection{Räumlich fehlerbezogenes Modell - SEM}
+
+Um das Modell als Instanz des allgemeinen linearen Regressionsmodells zu formulieren,
+wird zunächst der Sammelterm
+\begin{equation}
+    B_{\rho} \defeq := \mathds{I}_{n} - \rho W
+\end{equation}
+eingeführt und System \eqref{eq-6.6:reg-red} durch
+\begin{equation}
+    \nu=(\mathds{I}_{n} -\rho W)^{-1} \varepsilon=B_{\rho}^{-1} \varepsilon \, , \, 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n}) \, , \, \operatorname{diag}(W)=0    
+\end{equation}
+zusammengefasst.
+Durch das Invarianztheorem multi-normaler Verteilungen folgt aus der 
+multi-normalität von $\varepsilon$ dieselbe Verteilung für $e$ mit der Kovarianz
+\begin{alignat*}{1}
+    cov(\nu)=cov(B_{\rho}^{-1} \varepsilon) 
+    & = B_{\rho}^{-1} cov(\varepsilon) (B_{\rho}^{-1})^{\intercal} \\
+    & = B_{\rho}^{-1} (\sigma^{2} \mathds{I}_{n}) (B_{\rho}^{-1})^{\intercal}=
+    \sigma^{2} B_{\rho}^{-1} (B_{\rho}^{\intercal})^{-1}=
+    \sigma^{2} (B_{\rho}^{\intercal} B_{\rho})^{-1} =\sigma^{2} V_{\rho}
+\end{alignat*}
+und der räumlichen Kovarianzstruktur $V_{\rho}$, welche durch
+\begin{equation}
+    V_{\rho} := (B_{\rho}^{\intercal} B_{\rho})^{\text{-1}}
+\end{equation}
+alle räumlichen Aspekte der Kovarianz definiert. Hiermit wird 
+SEM-Modellgleichung \eqref{eq-6.7:sem-mod} durch 
+\begin{equation} \label{eq-6.8:sem-mod2}
+    Y=X \beta + \nu \, , \, 
+    \nu \sim \mathcal{N}(0,\sigma^{2} {V}_{\rho})
+\end{equation}
+umgeschrieben als allgemeines lineares Regresionsmodell.
+
+Eine dritte Darstellungsform ensteht durch Eliminierung 
+aller simultaner Beziehungen $\nu=\rho W \nu + \varepsilon$ 
+nach Einsetzen von $B_{\rho}$ und ergibt 
+\begin{equation}
+    Y=X \beta + B_{\rho}^{\text{-1}} \varepsilon \, , \, 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n})
+\end{equation}
+die reduzierte Form von Modell \eqref{eq-6.7:sem-mod}. 
+
+
+\subsection{Räumlich verzogenes Modell - SLM}
+Ein alternatives Modell ensteht durch die Annahme, 
+dass die autoregressiven Beziehungen zwischen den abhängigen Variablen 
+selbst auftreten. Es wird als \emph{räumlich verzogenes Modell} 
+(engl. spatial lag model) (SLM) bezeichnet. Die zugrundeliegenden räumlichen Beziehungen werden auch hier 
+durch die Gewichtsmatrix $W$ (mit $diag(W)=0$) repräsentiert. Die Grundgleichung \eqref{eq-6.1:reg-mod-gen}
+wird durch einsetzen von $\nu_{i}=\rho \sum_{h} w_{ih}Y_{h}+\varepsilon_{i}$ angepasst zu 
+
+\begin{equation} \label{eq-6.9:slm-mod}
+    Y_i = \beta_{0} + \sum_{j=1}^{k} 
+    \beta_{j} x_{ij} + \rho \sum_{h=1}^{n} w_{ih}Y_{h} + \varepsilon_{i} \, , \quad
+    \varepsilon_{i} \sim \mathcal{N}(0,\sigma^{2}) \, , \, i=1,\ldots,n
+\end{equation}
+Der autoregressive Term $\rho \sum_{h=1}^{n} w_{ij} Y_{h}$ spiegelt mögliche 
+Abhängigkeiten des Wertes $Y_{i}$ von den Werten $Y_{h}$ anderer Einheiten wieder.
+[?]Neben den Erklärungsvariablen aus $X$ wird der Modelloutput auch durch die
+Werte in der räumlichen Nähe beeinflusst [?]
+
+\subsubsection{Simultanitätsstruktur}
+
+Da die Residuen als unabhängig angenommen werden, scheint das obige Modell der 
+gewöhnlichen Kleinste Quadrate Methode (engl. OLM) zu entsprechen, mit dem zusätzlichen 
+Term $\rho (\sum_{h=1}^{n} w_{ih} Y_{h})$, wobei der unbekannte Räumliche Abhängigkeitsparameter $\rho$ 
+als ein einfacher beta-Parameter erscheint. Dies ist jedoch keineswegs der Fall, denn die $Y_{h}$ sind
+Zufallsvariablen und erscheinen zudem auf beiden Seiten des Systems in der typischen \glqq Simultanitätsstruktur \grqq.
+Das heißt, $Y_{i}$ wird auch in den Gleichungen für $Y_{h}$ auftreten wann immer $w_{hi}>0$ ist. Es handelt 
+sich somit keineswegs um einen einfachen Term eines KQM-Models. Dies zeigt sich insbesondere in der 
+Matrixnotation
+\begin{equation*}
+    Y=X \beta +\rho W Y + \varepsilon \, , \quad 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n})
+\end{equation*}
+welche wir weiter umformen.
+Durch Gruppierung der Y-Terme erhalten wir
+%\setlength{\abovedisplayskip}{0pt}
+%\setlength{\belowdisplayskip}{0pt}
+%\setlength{\abovedisplayshortskip}{0pt}
+%\setlength{\belowdisplayshortskip}{0pt}
+\begin{alignat*}{2}
+    Y - \rho W Y = X \beta + \varepsilon & \Rightarrow (\mathds{I}_{n}-\rho && W)Y =X \beta+\varepsilon \\
+                                    & \Rightarrow && B_{\rho} \, Y = X \beta + \varepsilon  \Rightarrow Y= B_{\rho}^{\text{-1}} X \beta + B_{\rho}^{\text{-1}} \varepsilon \\
+\end{alignat*}
+und leiten die reduzierte Form
+\begin{equation} \label{eq-6.10:slm-mod-red}
+    Y=B_{\rho}^{\text{-1}} X \beta + B_{\rho}^{\text{-1}} \varepsilon \, , \quad 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n})
+\end{equation}
+ab. In dieser Form ist ersichtlich, dass der räumliche Verzugsterm (engl spatial lag term) $\rho W Y$ 
+nicht nur ein simpler Regressionsteil ist. [?] sondern das Modell grundlegend von OLS abweicht [?]
+
+Zudem kann wenn auch das Modell als Sonderform der Linearen Regression formuliert werden, wenngleich auch 
+nicht so direkt wie im Fall der SEM. Der räumliche Abhängigkeitsparameter $\rho$ wird hierzu als bekannt Größe
+behandelt und das SLM auf gegebenes $\rho$ bedingt (engl. to condition on). Hierfür betrachten wir
+\begin{equation*}
+    X_{\rho}=B_{\rho}^{\text{-1}} X
+\end{equation*}
+als transformierten Datensatz. Zudem nutzen wir analog zum SEM den Sammelterm $B_{\rho}$ und 
+die Kovarianzstruktur $V_{\rho}$ gemäß
+\begin{equation*}
+    B_{\rho}=\mathds{I}_{n}-\rho W \quad \text{sowie} \quad V_{\rho} := (B_{\rho}^{\intercal} B_{\rho})^{\text{-1}}
+\end{equation*}
+um die Form
+\begin{equation}
+    Y=X_{\rho} \beta + u \, , \quad u \sim \mathcal{N}(0,\sigma^{2} V_{\rho})
+\end{equation}
+zu erreichen. Hier ist $\rho$ nicht mehr nur unbekannter Parameter in der Kovarianzmatrix $V_{\rho}$, 
+sondern tritt ebenso in $X_{\rho}$ auf. Während obiger Ausdruck XX also die Anwendung der 
+GLS-Methode (MKFQ?) auch auf räumlich verzogene Modelle (SLM) erlaubt, so ist die Anwendung eingeschränkter als 
+für räumliche Fehlermodelle (SEM).
+
+\subsubsection{Interpretation der Beta-Koeffizienten}
+
+Ein weiterer wichtiger Unterschied zwischen SLM und SEM ist die Interpretation der Beta-Koeffizienten. 
+Eine angenehme Eigenschaft der gewöhnlichen KQM ist die einfache Interpretation ihrer Beta-Koeffizienten.
+Aus der gewöhnlichen KQM für die Anzahl Arbeitnehmer in der Logistik $Y_{i}$ für Gemeinde $i$ mit 
+Arbeitslosigkeit als j-tem Regressor(?) $x_{ij}$ im Modell
+\begin{equation*}
+    Y_{i}=\beta_{0}+\sum_{j=1}^{k} \beta_{j} x_{ij} \quad \text{mit} \, \varepsilon_{i} \sim \mathcal{N}(0,\sigma^{2})\,, \, i=1,\ldots,n
+\end{equation*}
+wird in einem negativen Koeffizienten $\beta_{j}$ resultieren. Die auf realisierte Daten aller Attribute einer Gemeinde bedingte Erwartung
+\begin{equation} \label{eq-6.11:sem-cond-expect}
+    \bbbe[Y_{i}|x_{i1},\ldots,x_{ik}]=\beta_{0}+\sum_{j=1}^{k} \beta_{j} x_{ij} \, , \quad i=1,\ldots,n
+\end{equation}
+gibt für $\beta_{j}$ im Mittel den (erwarteten) Abfall an Logistikarbeitnehmern der Gemeinde $i$ je 
+zusätzlichem arbeitslosen Bewohner der Gemeinde. Der bedingte Erwartungswert kann direkt für jede Gemeinde einzeln 
+gebildet werden, da Attribute anderer Gemeinden hier keinen Einfuss haben.
+Diese Grenzänderungen können auch als partielle Ableitungen in der Form
+\begin{equation} \label{eq-6.12:sem-part-deriv}
+    \frac{\partial}{\partial x_{ji}} \bbbe(Y_{i}|x_{i1},\ldots,x_{ij},\ldots,x_{ik})=\beta_{j} \, , \quad i=1,\ldots,n \, , \, j=1,\ldots,k
+\end{equation}
+ausgedrückt werden. Sie korrespondieren exakt zum $\beta_{j}$ Koeffizienten für Variable $x_{j}$ und erlauben eine direkte Interpretation.
+
+Der Nachteil dieser KQM ist jedoch die gänzliche Vernachlässigung räumlicher Abhängigkeiten zwischen Gemeinden, daher wurde es zu Beginn des 
+Kapitels weiterenwickelt zum SEM-Modell \eqref{eq-6.8:sem-mod2} der Form
+\begin{equation*}
+    Y_{i}=\beta_{0}+\sum_{j=1}^{k} \beta_{j} x_{ij} + e_{i} \quad 
+    \text{mit} \, (e_{i},\ldots,e_{n}) \sim \mathcal{N}(0,V_{\rho})
+\end{equation*}
+mit $\bbbe[e_{i}]=0$ für alle $i$, wodurch weiterhin Gleichungen \eqref{eq-6.11:sem-cond-expect} und \eqref{eq-6.12:sem-part-deriv} gelten. 
+Somit ist die Interpretation der $\beta$ Koeffizienten auf das SEM übertragbar, während räumliche Abhängigkeiten einer bestimmten Art (zwischen Residuen) integriert sind. 
+Werden jedoch räumliche Abhängigkeiten zwischen den Beschäftigungszahlen $Y_{i}$ 
+der Gemeinden vermutet und über ein SLM modelliert, so ist die Interpretation aufgrund der Simultanitätsstruktur 
+weitaus komplexer. Dies wird ersichtlich aus der 
+reduzierten Form \eqref{eq-6.10:slm-mod-red} in Verbindung mit der Wellen- bzw. Riffelzerlegung aus
+Anhang X\footnote[1]{Soweit $\rho$ und W Konvergenzbedingung $ \left| \rho \right| <1/\lambda_{W}$ erfüllen}.
+
+\begin{alignat*}{1}
+    \bbbe[Y|X]=B_{\rho}^{-1} X \beta = (\mathds{I}_{n} - \rho W)^{-1} X \beta & = 
+    (\mathds{I}_{n} + \rho W + \rho^{2} W^{2} + \ldots) X \beta \\ & =
+    X \beta + \rho W X \beta + \rho^{2} W^{2} X \beta + \ldots
+\end{alignat*}
+
+Um hierauf partielle Ableitungen anzuwenden, müssen zuerst \emph{alle} Attribute für \emph{alle} Gemeinden 
+spezifiziert werden. Eine getrennte Darstellung für $Y_{i}$ muss im Detail entwickelt werden.
+Da nun Interaktionen zwischen einzelnen Gemeinden modelliert werden, sind für jede Gemeinde $i$ 
+die partiellen Ableitungen ${\partial} \big/ {\partial x_{lj}}$ bezüglich weiterer Gemeinden ($l \neq i$) und Attribute $j$ 
+von $\bbbe [Y_{i}|x_{1i},\ldots,x_{ji},\ldots,x_{ki}] $ relevant und müssen im Regressionskoeffizienten berücksichtigt werden. 
+Zuvor traten im SEM keine solchen Effekte zwischen Gemeinden auf und diese partiellen Ableitungen verschwanden für $l \neq i$ einfach.
+Im SLM jedoch resultiert eine Erhöhung von $x_{ij}$, z.B. der Arbeitslosigkeit in Gemeinde $i$, nicht nur direkt in einer Verringerung 
+der Logistikbeschäftigten innerhalb der gleichen Gemeinde $i$, sondern sorgt auch indirekt für Beschäftigungsveränderungen (positiv wie negativ) 
+in allen anderen Gemeinden $l \neq i$. Im Umkehrschluss sorgen diese Änderungen in $l$ wiederum zu indirekten Rückkopplungseffekten in $i$. 
+Diese räumlichen Riffel- bzw. Welleneffekte führen zu komplexen Zwischenabhängigkeiten, welche die einzelnen Beta-Koeffizienten beeinflussen.
+Zur Trennung dieser Effekte zerlegen wir die Matrixprodukte der reduzierten Form(?) in Summationen der einzelnen Vektoroperationen. 
+Zur besseren Übersicht nutzen wir kurzzeitig für beliebige $n \times m$ Matrizen 
+$A=[a_{ij}:i=1,\ldots,n \, , \, j=1,\ldots,m]$ die Notation $A(i,j)=a_{ij}$ für einzelne Matrixelemente 
+und $A(\cdot,j)$ für die j-te Spalte in $A$. Zudem kürzen wir $C := B_{\rho}^{-1}$ ab.
+
+\begin{alignat*}{1}
+    \bbbe[Y|X] & = C X \beta = C \sum_{j=1}^{k} \beta_{j} X(\cdot,j) \\
+    & = \sum_{j=1}^{k} \beta_{j} \left[ \sum_{h=1}^{n} X(h,j) C(\cdot,h) \right] 
+    = \sum_{h=1}^{n} \sum_{j=1}^{k}  X(h,j) \, \beta_{j} \, C(\cdot,h)
+\end{alignat*}
+
+In dieser Doppelsumme stellt die innere Summe für ein festes $h$ eine Linearkombination 
+aus Spaltenvektoren dar. Die äußere Summe wendet darüber eine zweite Linearkombination 
+für alle $h$ an und ergibt einen finalen Spaltenvektor an Y-Werten. Somit lässt sich eine 
+einzelne Zeile $i$ aus $ \bbbe[Y|X]$ schreiben als
+\begin{equation*}
+    \bbbe[Y_{i}|X] = \sum_{h=1}^{n} \sum_{j=1}^{k}  X(h,j) \, \beta_{j} \, C(i,h)
+\end{equation*}
+Hiervon kann nun direkt die partielle Ableitung
+\begin{equation*}
+    \frac{\partial}{\partial x_{ij}} \bbbe[Y_{i}|X] = \beta_{j} C(i,i)
+\end{equation*}
+gebildet werden. Im Gegensatz zur partiellen SEM-Ableitung \eqref{eq-6.12:sem-part-deriv} hängt 
+dieser Grenzeffekt nicht nur von $\beta_{j}$ ab, sondern 
+auch vom i-ten Diagonaleintrag der Matrix $C$ bzw. $B_{\rho}^{-1}$, welcher explizit die Form
+\begin{equation*}
+    B_{\rho}^{-1}(i,i) = 1 + \rho W(i,i) + \rho^{2} W^{2}(i,i) + \ldots = 1 + \rho^{2} W^{2}(i,i)
+\end{equation*}
+annimmt, da die Diagonaleinträge $W(i,i)$ auf Null gesetzt werden. Andererseits 
+sind $\rho^{2} W^{2}(i,i)$ und höhere Ordnungen positiv, und der Effekt jedes $\beta_{j}$ wird 
+durch diese räumlichen Effekte aufgebläht(?), wie oben beschrieben. 
+Da nun $Y_{i}$ auch durch Änderungen in $Y_{h}$ beeinflusst wird,folgt für 
+Attribut $j$ in Gemeinde $h$ die Grenzänderung
+\begin{equation*}
+    \frac{\partial}{\partial x_{hj}} \bbbe[Y_{i}|X] = \beta_{j} C(i,h)
+\end{equation*}
+auf Erwartungswert $\bbbe[Y_{i}|X]$. Der Gesamteffekt aller Gemeinden auf $\bbbe[Y_{i}|X]$ 
+durch Attribute aus anderen Gemeinden wird als \emph{indirekte Effekte} bezeichnet. 
+Analog wird der Gesamteffekt aller Attribute in der gleichen 
+Raumeinheit bzw. Gemeinde $i$ (mittels totalem Differential?) mit \emph{direkten Effekten} benannt.
+
+LeSage Pace 2009 Section 2.7.1
+ 
+Waller-Gotway S.335
+Greene S.297
+
+
+\section{Conditional Autoregressive Models - CAR}
+
+Während dieses Modell ein zum SEM ähnliches Konzept aufweist, liegt aus statistischer 
+Sicht ein fundamentaler Unterschied vor. Statt in unserem Beispiel die gemeinsame 
+Verteilung $(Y_{1},\ldots,Y_{n})$ der Arbeitnehmer aller Gemeinden zu modellieren, ist 
+dieser Ansatz ausgerichtet auf die einzelnen bedingten Verteilungen einer jeden 
+Beschäftigungszahl $Y_{i}$, gegeben alle anderen. Der Vorteil ist die Vermeidung einer 
+komplexen Simultanitätsstruktur. Alle univariaten bedingten Verteilungen, welche von 
+multinomial verteilten Zufallsgrößen abgeleitet werden, wiederum selbst normal.
+
+
+Die reduzierte Form der SE-Modellgleichung XX wird angepasst
+\begin{alignat*}{1}
+    Y=X \beta + B_{\rho}^{\text{-1}} \varepsilon & \Rightarrow Y - X \beta = B_{\rho}^{\text{-1}} \varepsilon 
+    \Rightarrow B_{\rho} (Y-X \beta) = \varepsilon \\
+    & \Rightarrow  (\mathds{I}_{n} - \rho W)(Y-X \beta) = \varepsilon \\
+    & \Rightarrow  Y - X \beta - \rho W (Y-X \beta) = \varepsilon \\
+    & \Rightarrow  Y = X \beta - \rho W (Y-X \beta) + \varepsilon \\
+\end{alignat*}
+
+
+\section{Spatial Econometrics}
+
+Waller Gotway 2004 S.363  - 379
+Cressie 1993 S.440    -  228
+
