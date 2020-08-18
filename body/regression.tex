@@ -1,9 +1,31 @@
 \chapter{Räumliche Regression}
 
-Regressionsmodelle stellen die primäre Klasse zur räumlichen Modellanalyse dar. 
+Regressionsmodelle stellen die primäre Klasse zur räumlichen Modellanalyse dar. Zunächst bietet sich die Klasse 
+der \emph{multiplen linearen Regression} (MLR) an. Sie dient mit $k$ unabhängigen Regressoren der Erklärung einer 
+abhängigen Zielgröße (Regressand). Dies stellt eine Spezialisierung des \emph{allgemeinen linearen Modells}, 
+auch \emph{multivariates lineares Regressionsmodell} dar, welches mehrere korrelierte (abhängige) Zielgrößen modelliert. Die multiple lineare Regression setzt 
+aber in der Grundvariante als \emph{klassisches multiples lineares Modell} ($\mathbf{KL}$-Modell) identisch und unabhängig 
+verteilte (engl. independent identically distributed - i.i.d.) Störterme voraus. Das \emph{klassisch lineare Modell der Normalregression} ($\mathbf{KLN}$-Modell) geht zusätzlich noch von einer 
+Normalverteilung der Störgrößen aus.
+Da wir jedoch Heteroskedastizität und Autokorrelation berücksichtigen, 
+nutzen wir in dieser Arbeit das \emph{verallgemeinerte multiple lineare Modell} ($\mathbf{VL}$-Modell) mit einer erweiterten Varianz-Kovarianzmatrix der Fehlerterme.
+(Heteroskedastizität liegt z.B. vor, wenn die Fehlerterme verschiedener Zielgrößen(?) verschiedene Varianzen aufweisen.)
+
+$Y$ stellt einen Vektor aus Beobachtungswerten dar und wird im Regressionsmodell als zu erklärende, abhängige Variable modelliert 
+und als Regressand, endogene Variable oder Zielgröße (engl. regressand, endogenous variable, response variable) bezeichnet.
+
+$X$ besteht hingegen als Matrix aus insgesamt $k$ n-dimensionalen Spaltenvektoren als erklärenden, unabhängigen Variablen, auch als Regressoren, exogene Variable oder Kovariate
+(engl. regressors, exogenous variables, explanatory variables, covariates) bezeichnet.
+
+$\varepsilon$ bezeichnet Fehlerterme bzw. Störgrößen (engl. error term, disturbance term, noise)
+
+Die \emph{gewöhnliche Methode der kleinsten Quadrate} ($\mathbf{GKQ}$-Methode) (engl. ordinary least squares - OLS)) dient als Standardverfahren der Ausgleichsrechnung 
+zur Schätzung der unbekannten Modellparameter $\beta, \sigma^{2}$ und $\rho$ im KL-Modell.
+Dagegen dient die Verallgemeinerte Kleinste-Quadrate-Schätzung ($\mathbf{VKQ}$-Methode) (engl. generalized least squares - GLS) 
+
 Der Unterschied in der räumlichen Struktur zwischen stetigen Punktlokationen der Geostatistik und 
 diskreten Gebietsdaten/Raumeinheiten der Raumanalyse(?)als Partition des Gesamtraumes spiegelt sich auch in den Regressionsmodellen wieder. 
-Der Georegression liegt die Stationarität der Kovarianz im Raum als fundamentale Anahme zugrunde. 
+Der Georegression liegt die Stationarität der Kovarianz im Raum als fundamentale Annahme zugrunde. 
 Die Verteilungsmodellierung der Residuen erfolgt mittels Variogram und zugehörigen Kovariogrammen.
 Im Gegensatz dazu wird im folgenden die Annahme der Stationarität ersetzt durch 
 räumlich autoregressive Annahmen auf Grundlage der Gewichtsmatrix. 
@@ -40,13 +62,13 @@ die Modelierung von $e_{i}$ über ein eigenes explizites lineares Model statt al
 Korrelierte Beobachtungen werden in Matrixschreibweise über Zusammenhang \eqref{eq-6.2:reg-mod} modelliert.
 
 \begin{equation} \label{eq-6.2:reg-mod}
-    \mathds{Y} = \mathds{X}^{\intercal} \beta + \nu 
+    \mathds{Y} = \mathds{X}^{\top} \beta + \nu 
 \end{equation}
 %\mathds{1}
 %\bbbe
 %\mathbb{I}
 
-Die Störgröße $\nu$ wird als multinomial verteilter Zufallsvektor aus standardnormalverteilten(?) Fehlertermen 
+Die Störgröße $\nu$ wird als multinomial verteilter Zufallsvektor aus (nicht notwendig normalverteilten) Fehlertermen 
 mit $\bbbe[\nu]=0$ angenommen, sodass
 \begin{equation*}
     \bbbe[Y]=\mathds{X} \beta
@@ -199,17 +221,15 @@ umwandeln, wobei $(\mathds{I}_{n}-\rho W)$ für ein wohldefiniertes Modell regul
 
 Daraus wird die Varianz-Kovarianzmatrix von $Y$ durch
 \begin{equation*}
-    \Sigma_{Y}=Var(Y) = (\mathds{I}_{n}-\rho W)^{-1} \, \Sigma_{\varepsilon} \, (\mathds{I}_{n}-\rho W^{\intercal})^{-1}
+    \Sigma_{Y}=Var(Y) = (\mathds{I}_{n}-\rho W)^{-1} \, \Sigma_{\varepsilon} \, (\mathds{I}_{n}-\rho W^{\top})^{-1}
 \end{equation*}
 abgeleitet und mit $\bbbe[Y]=X \beta$ unterliegt $Y$ einer multivariaten Normalverteilung. 
 Oftmals wird $\Sigma_{\varepsilon}=\sigma^{2} \mathds{I}_{n}$ gesetzt und somit die Varianz-Kovarianzmatrix zu
 \begin{equation*}
-    \Sigma_{Y}=Var(Y) = \sigma^{2} \, (\mathds{I}_{n}-\rho W)^{-1} \, (\mathds{I}_{n}-\rho W^{\intercal})^{-1}
+    \Sigma_{Y}=Var(Y) = \sigma^{2} \, (\mathds{I}_{n}-\rho W)^{-1} \, (\mathds{I}_{n}-\rho W^{\top})^{-1}
 \end{equation*}
 vereinfacht. Hierbei sind asymmetrische GEwichtsmatrizen $W$ zulässig, diese werden aber in der Praxis 
 oft als symmetrisch angenommen (Bivand S. 294).
-
-\subsection{Räumlich fehlerbezogenes Modell - SEM}
 
 Um das Modell als Instanz des allgemeinen linearen Regressionsmodells zu formulieren,
 wird zunächst der Sammelterm
@@ -226,14 +246,14 @@ Durch das Invarianztheorem multi-normaler Verteilungen folgt aus der
 multi-normalität von $\varepsilon$ dieselbe Verteilung für $e$ mit der Kovarianz
 \begin{alignat*}{1}
     cov(\nu)=cov(B_{\rho}^{-1} \varepsilon) 
-    & = B_{\rho}^{-1} cov(\varepsilon) (B_{\rho}^{-1})^{\intercal} \\
-    & = B_{\rho}^{-1} (\sigma^{2} \mathds{I}_{n}) (B_{\rho}^{-1})^{\intercal}=
-    \sigma^{2} B_{\rho}^{-1} (B_{\rho}^{\intercal})^{-1}=
-    \sigma^{2} (B_{\rho}^{\intercal} B_{\rho})^{-1} =\sigma^{2} V_{\rho}
+    & = B_{\rho}^{-1} cov(\varepsilon) (B_{\rho}^{-1})^{\top} \\
+    & = B_{\rho}^{-1} (\sigma^{2} \mathds{I}_{n}) (B_{\rho}^{-1})^{\top}=
+    \sigma^{2} B_{\rho}^{-1} (B_{\rho}^{\top})^{-1}=
+    \sigma^{2} (B_{\rho}^{\top} B_{\rho})^{-1} =\sigma^{2} V_{\rho}
 \end{alignat*}
 und der räumlichen Kovarianzstruktur $V_{\rho}$, welche durch
 \begin{equation}
-    V_{\rho} := (B_{\rho}^{\intercal} B_{\rho})^{\text{-1}}
+    V_{\rho} := (B_{\rho}^{\top} B_{\rho})^{\text{-1}}
 \end{equation}
 alle räumlichen Aspekte der Kovarianz definiert. Hiermit wird 
 SEM-Modellgleichung \eqref{eq-6.7:sem-mod} durch 
@@ -312,7 +332,7 @@ behandelt und das SLM auf gegebenes $\rho$ bedingt (engl. to condition on). Hier
 als transformierten Datensatz. Zudem nutzen wir analog zum SEM den Sammelterm $B_{\rho}$ und 
 die Kovarianzstruktur $V_{\rho}$ gemäß
 \begin{equation*}
-    B_{\rho}=\mathds{I}_{n}-\rho W \quad \text{sowie} \quad V_{\rho} := (B_{\rho}^{\intercal} B_{\rho})^{\text{-1}}
+    B_{\rho}=\mathds{I}_{n}-\rho W \quad \text{sowie} \quad V_{\rho} := (B_{\rho}^{\top} B_{\rho})^{\text{-1}}
 \end{equation*}
 um die Form
 \begin{equation}
@@ -417,10 +437,46 @@ Analog wird der Gesamteffekt aller Attribute in der gleichen
 Raumeinheit bzw. Gemeinde $i$ (mittels totalem Differential?) mit \emph{direkten Effekten} benannt.
 
 LeSage Pace 2009 Section 2.7.1
- 
+
+
 Waller-Gotway S.335
 Greene S.297
 
+\subsection{Kombiniertes Modell}
+Während der Entwicklung des SL-Modells stellt sich die Frage, warum alle unbeobachteten Faktoren(welche genau?) 
+als räumlich unabhängig behandelt werden. Es ist praktisch sehr wohl möglich sowohl zwischen den Y-Variablen 
+als auch den Residuen $\varepsilon$ räumlich autoregressive Abhängigkeiten zu messen. Wird nun zur Unterscheidung 
+mit $M$ eine eigene Gewichtsmatrix und $\lambda$ ein zusätzlicher Abhängigkeitsparameter für die Fehlerkomponente 
+eingeführt, so lassen sich beide Modelle gemäß
+\begin{equation*}
+    Y=\rho W Y + X \beta + \nu \, , \, \nu=\lambda M \nu + \varepsilon \, , \quad 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n})
+\end{equation*}
+kombinieren und in die zugehörige reduzierte Form
+\begin{alignat*}{1}
+    &(\mathds{I}_{n} - \rho W) Y = X \beta (\mathds{I}_{n} - \lambda M)^{-1} \varepsilon \\
+    \Rightarrow \, & Y=(\mathds{I}_{n}-\rho W)^{-1} X \beta + 
+    (\mathds{I}_{n}-\rho W)^{-1}(\mathds{I}_{n}-\lambda M)^{-1} \varepsilon
+\end{alignat*}
+bringen. Dieses Modell wurde durch (Kelejian, Prucha2010) als Räumlich Autoregressives Modell mit 
+autoregressiven Störungen
+(engl. Spatial Autoregressive Model with Autoregressive disturbances) bezeichnet und mit SARAR(1,1) abgekürzt.
+In unserer Arbeit wird dieses Modell zur Konstruktion von Vergleichstests 
+zwischen SLM und SEM als Instanzen derselben Modellklasse dienen. Daher beschränken wir uns auf 
+den Spezialfall $M=W$ und erhalten
+\begin{equation} \label{eq-6.20:comb-mod}
+    Y=\rho W Y + X \beta + \nu \, , \, \nu=\lambda W \nu + \varepsilon \, , \quad 
+    \varepsilon \sim \mathcal{N}(0,\sigma^{2} \mathds{I}_{n})
+\end{equation}
+als Kombiniertes Modell in der reduzierten Form: 
+\begin{equation*}
+    Y=(\mathds{I}_{n}-\rho W)^{-1} X \beta + (\mathds{I}_{n}-\rho W)^{-1}(\mathds{I}_{n}-\lambda W)^{-1} \varepsilon
+\end{equation*}
+Somit resultiert für gegebene Gewichtsmatrix W aus Kombinationsmodell \eqref{eq-6.20:comb-mod} 
+mit $\rho=0$ das SE-Modell und mit $\lambda=0$ das SL-Modell. Zwar ist dieses Modell wohldefiniert und kann 
+prinzipell zur simultanen Schätzung sowohl von $\rho$ als auch $\lambda$ herangezogen werden. 
+Jedoch können die Ergebnisse instabil sein, da beide Parameter auf die gleiche Matrix $W$ bezogen 
+ähnliche Rollen spielen.
 
 \section{Conditional Autoregressive Models - CAR}
 
@@ -443,8 +499,232 @@ Die reduzierte Form der SE-Modellgleichung XX wird angepasst
 \end{alignat*}
 
 
-\section{Spatial Econometrics}
+
+\section{Parameterschätzung}
+Wir nutzen die \emph{Methode größter Plausibilität} (engl. Maximum-Likelihood-Methode - ML) ....
+Für gegebene Stichprobenbeobachtung $y$ und Parametervektor $\theta$ aus $ \Theta \subseteq \RR$ ist 
+der ML-Schätzer durch
+\begin{equation*}
+    f(y|\hat{\theta})=\max_{\theta} f(y|\theta)
+\end{equation*}
+definiert. Die korrespondierende Likelihoodfunktion $l(\cdot|y)$ wird 
+\begin{equation*}
+    l(\theta|y) := f(y|\theta)
+\end{equation*}
+verdeutlicht die Abhängigkeit vom unbekannten Parameter $\theta$ für bekannte $y$.
+Da Wahrscheinlichkeitsdichten nichtnegative Werte annehmen und die Log-Likelihoodfunktion 
+$L(\theta|y) := \operatorname{log} \left[ l(\theta|y) \right]$ stets monoton wachsend bezüglich $l(\theta|y)$ 
+ist, kann der ML-Schätzer $\hat{\theta}$ auch durch die log-Likelihoodbedingungn
+\begin{equation*}
+    L(\hat{\theta}|y)=\max_{\theta} L(\theta|y) =\max_{\theta} \operatorname{log} (f(y|\theta))
+\end{equation*}
+beschrieben werden.
+
+\subsection{ML-Schätzung im klassischen Regressionsmodell}
+
+Wir gehen vom KLN-Modell mit normalverteilten Störgrößen aus und und sichern somit eine multivariate Normalverteilung 
+der Zielgröße $Y \sim \mathcal{N}(\mathbf{X} \beta ,\sigma^2 \mathds{I}_{n})$. Wir nutzen
+\begin{equation*}
+    \bullet ~ \frac{1}{\sqrt{\det(\sigma^2 \mathds{I}_{n})} }= \frac{1}{\sqrt{(\sigma^{2})^n \det(\mathds{I}_{n})}}  = \frac{1}{\sqrt{(\sigma^{2})^n} } \\
+    \quad \text{sowie} \quad \bullet ~ (\sigma^2 \mathds{I}_{n})^{-1} = \frac{1}{\sigma^2} \mathds{I}_{n}^{-1} = \frac{\mathds{I}_{n}}{\sigma^2}
+\end{equation*}
+und integrieren diese Vereinfachungen für gegebene Stichprobe $\mathbf{y}$ und gesuchten
+Parametervektor $\theta=(\beta_{0},\beta_{1},\ldots,\beta_{k},\sigma^{2})$ mit 
+$\Sigma=\sigma^2 \mathds{I}_{n}$ in die Dichtefunktion
+\begin{alignat*}{2}
+    f(\mathbf{y}|\beta,\sigma^2) & = \frac{1}{ \sqrt{(2 \pi)^{n} \det \mathbf{\Sigma} } } 
+    &&\exp \left( -\frac{1}{2 } \, \left(\mathbf{y-X\beta} \right)^{\top} \mathbf{\Sigma}^{-1} \left( \mathbf{y-X\beta} \right) \right)\\
+    & =\frac{1}{ \sqrt{(2 \pi  \sigma^2)^n } } 
+    &&\exp \left(-\frac{1}{2 \sigma^2} \left( \mathbf{y-X\beta} \right)^{\top} \left( \mathbf{y-X\beta} \right) \right)
+\end{alignat*}
+der Zielverteilung. Daraus folgt die log-Likelihoodfunktion der GKQ-Methode durch
+\begin{equation*}
+    \operatorname{L}(\theta|\mathbf{y})=\log \left( f(\mathbf{y}|\theta) \right)= -\frac{n}{2} \operatorname{log}(2\pi) -\frac{n}{2} \operatorname{log}(\sigma^{2})
+    -\frac{1}{2\sigma^{2}} \left( \mathbf{y-X\beta} \right)^{\top} \left( \mathbf{y-X\beta} \right)
+\end{equation*}
+Zur Ermittlung der ML-Schätzer $\hat{\theta}=(\hat{\beta},\hat{\sigma}^2)$ erfolgt die Maximierung von XX. 
+Für beliebige $\sigma^2$ wird $\operatorname{L}$ bezüglich $\beta$ maximiert 
+durch Minimieren des letzten Terms, auch als \emph{mittlerer quadratischer Fehler} ($\mathbf{MQF}$)
+\begin{equation} \label{eq-6.21:mqf-beta}
+    \operatorname{MQF}(\beta):=\left( \mathbf{y-X\beta} \right)^{\top} \left( \mathbf{y-X\beta} \right)=
+    \mathbf{y}^{\top} \mathbf{y} -2 \mathbf{y}^{\top} \mathbf{X} \beta + \beta^{\top} \mathbf{X}^{\top} \mathbf{X} \beta
+\end{equation}
+bezeichnet. Diese quadratische Form in der Unbekannten $\beta$ liefert für das Minimierungsproblen das 
+Optimalitätskriterium erster Ordnung in der Form
+\begin{equation*}
+    0 \overset{!}{=} \nabla \operatorname{MQF}(\beta)= -2 X^{\top} y + 2 X^{\top} X \beta \Rightarrow X^{\top} X \beta=X^{\top} y
+\end{equation*}
+und nutzt die Symmetrie der quadratischen Matrix $X^{\top}X$. 
+Hat $X$ den vollen Rang $k+1$, d.h. es treten keine Kolinearitäten zwischen Spalten auf, 
+so ist $X^{\top}X$ regulär. Somit ergibt
+\begin{equation}
+    \hat{\beta} = (X^{\top}X)^{-1} X^{\top} Y
+\end{equation}
+die eindeutige Lösung für den GKQ-Schätzer von $\beta$ zu Stichprobenrealisierungen $y$ von $Y$. 
+Die Hesse-Matrix
+\begin{equation*}
+    H_{MQF}(\beta)=\nabla (-2 X^{\top} y + 2 X^{\top} X \beta) = 2 X^{\top} X
+\end{equation*}
+liefert durch positive Definitheit der Matrix $X^{\top} X$ für reguläre $X$ das
+Optimalitätskriterium zweiter Ordnung des Minimierers $\hat{\beta}$.
+(BEWEIS?-Für Matrix mit vollem Rang folgt positive Definitheit der quadratischen Form)
+Der Stichprobenumfang $n$ muss hierbei deutlich über der Anzahl Parameter $k+1$ liegen.
+Eine Verzerrung (engl. bias) des Schätzers $\hat{\beta}$ 
+\begin{equation*}
+    \bbbe[\hat{\beta}]=\bbbe[(X^{\top}X)^{-1} X^{\top} Y] = 
+    (X^{\top}X)^{-1} X^{\top} \bbbe[Y] = (X^{\top}X)^{-1} X^{\top} X \beta = \beta
+\end{equation*}
+liegt nicht vor. Diese Eigenschaft der Unverzerrtheit (Verzerrungsfreiheit?) ist 
+insbesondere unabhängig von $\operatorname{cov(\varepsilon)}$. Es ist nur die korrekte 
+Spezifikation des linearen Trendes $X \beta$ über $\bbbe[\varepsilon]=0$ notwendig.
+
+Die GKQ-Methode ist nicht direkt erweiterbar auf $\sigma^2$. Statt dessen 
+wird der Minimierer $\hat{\beta}$ der MQF aus Gleichung \eqref{eq-6.21:mqf-beta} substituiert 
+um die reduzierte Funktion
+\begin{equation*}
+    L_c(\sigma^{2}|y) \equiv L(\hat{\beta},\sigma^{2}|y)=-\frac{n}{2} \operatorname{log}(2\pi) 
+    -\frac{n}{2} \operatorname{log}(\sigma^{2})
+    -\frac{1}{2\sigma^{2}} \left( y-X \hat{\beta} \right)^{\top} \left( y-X \hat{\beta} \right)
+\end{equation*}
+abzuleiten. Diese wird als konzentrierte Likelihood-Funktion von $\sigma^2$ bezeichnet. 
+Maximieren dieser Funktion bezüglich Parameter $\sigma^2$ liefert 
+\begin{align*}
+    0 \overset{!}{=} \frac{d}{d \, \sigma^2} L_c(\sigma^{2}|y) &= -\frac{n}{2} \left(\frac{1}{\sigma^{2}}\right) 
+    + \frac{1}{2} \left(\frac{1}{(\sigma^{2})^2}\right) \left( y-X \hat{\beta} \right)^{\top} \left( y-X \hat{\beta} \right)\\
+    &=-n + \frac{1}{\sigma^{2}} \left( y-X \hat{\beta} \right)^{\top} \left( y-X \hat{\beta} \right)
+\end{align*}
+und schließlich den exakten ML-Schätzer 
+\begin{equation*}
+    \hat{\sigma}^{2}=\frac{1}{n} \left( y-X \hat{\beta} \right)^{\top} \left( y-X \hat{\beta} \right)
+\end{equation*}
+Der Maximierer $\hat{\sigma}^{2}$ muss zudem beim Einsetzen in die zweite 
+Ableitung von $L_c$ negative Werte liefern.
+Der ML-Schätzer von $\sigma^2=\operatorname{var}(\varepsilon)=\bbbe[\varepsilon^2]$ lässt sich zudem über 
+die Residuen ausdrücken
+\begin{equation*}
+    \hat{\sigma}^{2}= \frac{1}{n} \hat{\varepsilon}^{\top} \hat{\varepsilon}=\frac{1}{n} \sum_{i=1}^{n} \hat{\varepsilon}_{i}^2
+\end{equation*}
+
+\subsection{ML-Schätzung im verallgemeinerten Regressionsmodell}
+
+Im Anschluss erfolgt die Verallgemeinerung auf das VLN-Modell mit normalverteilten Störgrößen 
+und resultiert somit in der verallgemeinerten multivariaten Normalverteilung 
+der Zielgröße $Y \sim \mathcal{N}(\mathbf{X\beta} ,\sigma^2 \mathbf{V})$. Wir nutzen
+\begin{equation*}
+    \bullet ~ \frac{1}{\sqrt{\det(\sigma^2 \mathbf{V})} }= \frac{1}{\sqrt{(\sigma^{2})^n \det \mathbf{V} }} \\
+    \qquad \text{sowie} \qquad \bullet ~ (\sigma^2 \mathbf{V})^{-1}  = \frac{\mathbf{V}^{-1}}{\sigma^2}
+\end{equation*}
+und erstellen erneut für gegebene Stichprobe $\mathbf{y}$ und
+Parametervektor $\theta=(\beta_{0},\beta_{1},\ldots,\beta_{k},\sigma^{2})$ mit 
+$\Sigma=\sigma^2 \mathbf{V}$ in die Dichtefunktion
+\begin{alignat*}{2}
+    f(\mathbf{y}|\beta,\sigma^2) & = \frac{1}{ \sqrt{(2 \pi)^{n} \det \mathbf{\Sigma} } } 
+    &&\exp \left( -\frac{1}{2 } \, \left(\mathbf{y-X\beta} \right)^{\top} \mathbf{\Sigma}^{-1} \left( \mathbf{y-X\beta} \right) \right)\\
+    & =\frac{1}{ \sqrt{(2 \pi  \sigma^2)^n \det \mathbf{V} } } 
+    &&\exp \left(-\frac{1}{2 \sigma^2} \left( \mathbf{y-X\beta} \right)^{\top} \mathbf{V}^{-1} \left( \mathbf{y-X\beta} \right) \right)
+\end{alignat*}
+der Zielverteilung. Daraus folgt die log-Likelihoodfunktion der VKQ-Methode durch
+\begin{equation*}
+    \operatorname{L}(\theta|\mathbf{y})= -\frac{n}{2} \log(2\pi) -\frac{n}{2} \log(\sigma^{2}) -\frac{1}{2} \log(\det \mathbf{V} )
+    -\frac{1}{2\sigma^{2}} \left( \mathbf{y-X\beta} \right)^{\top} \mathbf{V}^{-1} \left( \mathbf{y-X\beta} \right)
+\end{equation*}
+In Erweiterung zur klassischen Regression wird  $\hat{\beta}$ für beliebige $\sigma^2$ die Funktion $\operatorname{L}(\beta,\sigma^2|\mathbf{y})$ 
+maximieren, indem deren quadratischer Anteil $\left( \mathbf{y-X\beta} \right)^{\top} \mathbf{V}^{-1} \left( \mathbf{y-X\beta} \right)$ minimiert wird.
+Diese quadratische Form lässt sich als gewichtetes KQ-Problem interpretieren. Die Cholesky-Zerlegung für $\mathbf{V}$ 
+ist durch das Cholesky-Theorem gesichert und
+\begin{equation*}
+    \mathbf{V}=\mathbf{T} \mathbf{T}^{\top} ~ \Rightarrow ~ \mathbf{V}^{-1} 
+    = \left( \mathbf{T}^{\top} \right)^{-1} \mathbf{T}^{-1}
+    = \left( \mathbf{T}^{-1} \right)^{\top} \mathbf{T}^{-1}
+\end{equation*}
+erlaubt es, den quadratischen Term
+\begin{align*}
+    \left( \mathbf{y-X\beta} \right)^{\top} \mathbf{V}^{-1} \left( \mathbf{y-X\beta} \right) 
+    &= \left( \mathbf{y-X\beta} \right)^{\top} (\mathbf{T}^{-1})^{\top} \mathbf{T}^{-1} \left( \mathbf{y-X\beta} \right) \\ 
+    &= \left( \mathbf{T}^{-1} \mathbf{y}- \mathbf{T}^{-1} \mathbf{X\beta} \right)^{\top} \left( \mathbf{T}^{-1} \mathbf{y}- \mathbf{T}^{-1} \mathbf{X\beta} \right) \\
+    &= \left( \mathbf{\tilde{y}-\tilde{X} \beta} \right)^{\top} \left( \mathbf{\tilde{y}-\tilde{X} \beta} \right)
+\end{align*}
+in eine reduzierte Form zu bringen. Diese entspricht der klassischen Version unter Transformationen 
+$\mathbf{T}^{-1} \mathbf{y}$ und $\mathbf{T}^{-1} \mathbf{X}$. 
+Daraus ergibt sich der ML-Schätzer des KLN Modells
+\begin{align*}
+    \hat{\beta}=\left( \mathbf{\tilde{X}}^{\top} \mathbf{\tilde{X}} \right)^{-1} \mathbf{\tilde{X}}^{\top} \mathbf{\tilde{y}} 
+    &=\left[ \left( \mathbf{T}^{-1} \mathbf{X} \right)^{\top} \left( \mathbf{T}^{-1} \mathbf{X} \right) \right]^{-1}
+    \left( \mathbf{T}^{-1} \mathbf{X} \right)^{\top} \left( \mathbf{T}^{-1} \mathbf{y} \right)\\
+    &=\left[ \mathbf{X}^{\top} \left(\mathbf{T}^{\top} \right)^{-1} \mathbf{T}^{-1} \mathbf{X} \right]^{-1}
+    \mathbf{X}^{\top} \left(\mathbf{T}^{\top} \right)^{-1} \mathbf{T}^{-1} \mathbf{y}
+    =\left[ \mathbf{X}^{\top} \mathbf{V}^{-1} \mathbf{X} \right]^{-1}
+    \mathbf{X}^{\top} \mathbf{V}^{-1} \mathbf{y}
+\end{align*}
+unter Rücktransformation der Cholesky-Zerlegung. 
+Für den ML-Schätzer $\hat{\sigma}^2$ finden wir analog zur KLN  
+\begin{align*}
+    \hat{\sigma}^{2} = \frac{1}{n} \left( \mathbf{\tilde{y}-\tilde{X} \hat{\beta}} \right)^{\top} \left( \mathbf{\tilde{y}-\tilde{X} \hat{\beta}} \right) 
+    &= \frac{1}{n} \left( \mathbf{T}^{-1} \mathbf{y} - \mathbf{T}^{-1} \mathbf{X} \hat{\beta} \right)^{\top} \left( \mathbf{T}^{-1} \mathbf{y}- \mathbf{T}^{-1} \mathbf{X} \hat{\beta} \right)\\
+    &= \frac{1}{n} \left( \mathbf{y} - \mathbf{X} \hat{\beta} \right)^{\top} \left( \mathbf{T}^{-1} \right)^{\top} \left( \mathbf{T}^{-1} \right) \left( \mathbf{y}- \mathbf{X} \hat{\beta} \right)\\
+    &= \frac{1}{n} \left( \mathbf{y} - \mathbf{X} \hat{\beta} \right)^{\top} \qquad \mathbf{V}^{-1} \quad \left( \mathbf{y}- \mathbf{X} \hat{\beta} \right)
+\end{align*}
+und interpretieren die ML-Schätzung aus VLN-Modellen als direkte Erweiterung aus der KLN-Modelierung. 
+
+\subsection{ML-Schätzung für SE-Modelle}
+Bezüglich einer Gewichtsmatrix $\mathbf{W}$ ist die Matrix $\mathbf{B}_{\rho}=(\mathds{I}_{n} - \rho \mathbf{W})^{-1}$ gegeben und 
+definiert die räumliche Kovarianzstruktur $\mathbf{V}_{\rho}=\left(\mathbf{B}_{\rho}^{\top} \mathbf{B}_{\rho} \right)^{-1} 
+=\mathbf{B}_{\rho}^{-1} \left(\mathbf{B}_{\rho}^{-1}\right)^{\top}$ aus Gleichung XX. 
+Somit ist das SE-Modell ein Spezialfall der VLN-Modellform mit $\mathbf{V}_{\rho}$ als Sonderform von $\mathbf{V}$. 
+In $\mathbf{V_{\rho}}$ ist im Gegensatz zu $\mathbf{V}$ jetzt $\rho$ als zusätzlicher Parameter enthalten. Der Parametervektor wird erweitert zu 
+$\theta=(\beta_{0},\beta_{1},\ldots,\beta_{k},\sigma^{2},\rho)$ und mit
+\begin{equation*}
+    \operatorname{L}(\theta|\mathbf{y})= -\frac{n}{2} \log(2\pi) -\frac{n}{2} \log(\sigma^{2}) -\frac{1}{2} \log(\det \mathbf{V_{\rho}} )
+    -\frac{1}{2\sigma^{2}} \left( \mathbf{y-X\beta} \right)^{\top} \mathbf{V_{\rho}}^{-1} \left( \mathbf{y-X\beta} \right)
+\end{equation*}
+resultiert daraus die log-Likelihoodfunktion. Bedingt auf ein gegebenes $\rho$ folgen erneut wie im VLN-Modell 
+die ML-Schätzer 
+\begin{equation*}
+    \hat{\beta}_{\rho} = \left( \mathbf{X}^{\top} \mathbf{V}_{\rho}^{-1} \mathbf{X} \right)^{-1}
+    \mathbf{X}^{\top} \mathbf{V}_{\rho}^{-1} \mathbf{y} 
+    \qquad \text{sowie} \qquad
+    \hat{\sigma}_{\rho}^{2} = \frac{1}{n} \left( \mathbf{y} - \mathbf{X} \hat{\beta}_{\rho} \right)^{\top} 
+    \mathbf{V}_{\rho}^{-1} \left( \mathbf{y}- \mathbf{X} \hat{\beta}_{\rho} \right)
+\end{equation*}
+mit Index $\rho$ als Audruck der parametrischen Abhängigkeit. 
+Die explizite Form der Schätzer als geschlossen darstellbare Funktion in Abhängigkeit von $\rho$ wird in 
+die Likelihoodfunktion X.X eingesetzt um mit 
+$ \operatorname{L_{c}}(\rho|\mathbf{y}) \equiv \operatorname{L}(\hat{\beta}_{\rho},\hat{\sigma}_{\rho}^{2},\rho|\mathbf{y}) $ 
+die \emph{konzentrierte Log-Likelihoodfunktion} 
+\begin{equation*}
+    \operatorname{L_{c}}(\rho|\mathbf{y})= -\frac{n}{2} \log(2\pi) -\frac{n}{2} \log(\hat{\sigma}_{\rho}^{2}) -\frac{1}{2} \log(\det \mathbf{V_{\rho}} )
+    -\frac{1}{2 \hat{\sigma}_{\rho}^{2}} \left( \mathbf{y-X \hat{\beta}_{\rho}} \right)^{\top} \mathbf{V_{\rho}}^{-1} \left( \mathbf{y-X \hat{\beta}_{\rho}} \right)
+\end{equation*}
+für festes $\rho$ zu erhalten, wie es zuvor in der KLN für $\sigma^2$ angewendet wurde. Hiervon lässt sich der Schlussterm durch
+\begin{equation*}
+    -\frac{1}{2 \hat{\sigma}_{\rho}^{2}} \left( \mathbf{y-X \hat{\beta}_{\rho}} \right)^{\top} \mathbf{V_{\rho}}^{-1} \left( \mathbf{y-X \hat{\beta}_{\rho}} \right)
+    = -\frac{1}{2 \hat{\sigma}_{\rho}^{2}} \left[ n \, \hat{\sigma}_{\rho}^{2} \right] = -\frac{n}{2}
+\end{equation*}
+auf eine Konstante vereinfachen. Zur weiteren Reduktion wird unter Anwendung der Eigenschaften 
+von Determinaten und Inversen wie in Anhang XX die Form
+\begin{align*}
+    \det \mathbf{V_{\rho}} = \det \left(  \left(\mathbf{B}_{\rho}^{\top} \mathbf{B}_{\rho} \right)^{-1} \right) 
+    & = \det \left(\mathbf{B}_{\rho}^{-1} \right)  \det \left(\left( \mathbf{B}_{\rho}^{\top} \right)^{-1} \right) \\
+    & = \left( \det \mathbf{B}_{\rho} \right)^{-1}  \left( \det \mathbf{B}_{\rho}^{\top} \right)^{-1} 
+    = \left( \det \mathbf{B}_{\rho} \right)^{-2}
+\end{align*}
+ausgenutzt. Beide Vereinfachungen bringen uns schließlich mit
+\begin{equation*}
+    \operatorname{L_{c}}(\rho|\mathbf{y})= -\frac{n}{2} \left[ 1+ \log(2\pi)+ \log(\hat{\sigma}_{\rho}^{2}) \right] 
+    + \log(\det \mathbf{B}_{\rho} )
+\end{equation*}
+die vereinfachte konzentrierte Log-Likelihoodfunktion für $\rho$. Da $\operatorname{L_{c}}(\rho|\mathbf{y})$ eine 
+(hinreichend?) glatte (stetige?) Funktion in einer Variablen darstellt, lässt sich diese Funktion 
+mittels Liniensuchverfahren maximieren, um Schätzer $\hat{\rho}$ zu ermitteln. Dieser wird dann in die 
+Gleichung XX für $\hat{\beta}_{\rho}$ und Gleichung XX für $\hat{\sigma}_{\rho}^{2}$ eingesetzt. Für 
+große Stichprobengrößen $n$ wird eine Spektralzerlegung zur Berechnung von $\det \mathbf{B}_{\rho}$ genutzt, 
+wie in Anhang XX genauer erläutert. 
+
+Bivand S. 300
+
+\subsection{ML-Schätzung für SL-Modelle}
 
 Waller Gotway 2004 S.363  - 379
 Cressie 1993 S.440    -  228
 
+ 

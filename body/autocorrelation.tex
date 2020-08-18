@@ -1,0 +1,97 @@
+\chapter{Räumliche Autokorrelation}
+\label{ch:autocorrelation}
+\section{Theorie und Indizes räumlicher Autokorrelation}
+
+Ein wichtiges Konzept der räumlichen Statistik ist die \emph{räumliche Abhängigkeit} und daraus 
+resultierende \emph{räumliche Autokorrelation} (engl. spatial dependence and autocorrelation).
+Diese kann zum einen als Störfaktor gesehen werden, da statistische Tests verkompliziert werden. 
+Bei räumlicher Autokorrelation liegt eine Abhängigkeit der Störgrößen des ökonometrischen Modells von regionalen 
+Untersuchungseinheiten vor. Dies führt bei Kleinste-Quadrate-Schätzungen zu Verzerrungen der Regressionskoeffizienten 
+oder Ungültigkeit der Signifikanztests. Zum anderen liefert diese zusätzliche Information Möglichkeiten 
+zur räumlichen Interpolation. Während Trendprognosen eine zeitliche Autokorrelation benötigen, 
+ermöglicht räumliche Autokorrelation (bzw. räumliche Persistenz) eine distanzabhängige Interpolation. 
+In diesem Kapitel werden Eigenschaften und Berechnung der Statistiken untersucht.
+
+\subsection{Einführung}
+
+Eine Korrelation (engl. correlation) beschreibt die funktionalen Beziehungen zwischen zwei 
+Variablen und liefert ein Maß für den Stärkegrad der Abhängigkeit zwischen den Variablenpaaren. 
+Der \emph{Bravais-Pearson'sche Korrelationskoeffizient} (auch: Produkt-Moment-Korrelationskoeffizient, Pearsons r) 
+erfasst den linearen Zusammenhang zweier annähernd normalverteilter Variablen und ist zur Messung der Abhängigkeit 
+metrischer und dichotomer Daten geeignet. Ein Wert von 0 gibt vollkommene Unkorreliertheit an, währen -1 exakt 
+negative und +1 exakt positive lineare Korrelation bedeutet. Im Gegensatz dazu sind \emph{Spearman's rho} und 
+\emph{Kendalls tau} als nichtparametrische/parameterfreie Rangkorrelationskoeffizienten auf ordinalskalierten Daten 
+ohne Verteilungsannahmen anwendbar.
+
+Autokorrelation misst die Korrelation eines Merkmals mit sich selbst und wird zwischen (zeitlich oder räumlich) 
+benachbarten Beobachtungen erfasst. Bei Messungen (bezüglich) eines Beobachtungsobjektes im Zeitverlauf ist es (i.A.) 
+wahrscheinlich, dass zeitlich nahe beieinander liegende Beobachtungen ähnlichere Messwerte liefern als solche mit 
+größerem zeitlichen Abstand. Messwerte ändern sich graduell(stetig) im Zeitverlauf, wenn auch nicht streng monoton. 
+Zeitliche Autokorrelation misst in der Zeitreihenanalyse den Grad der Assoziation zwischen Beobachtungsfolgen 
+(bzw. Signalen) oder Folgen von Zufallsvariablen in Einheiten bestimmter, meist äquidistanter, als Lags bezeichnete 
+Zeitabstände. Eine Folge wird zeitlich verschoben und zu sich selbst in Beziehung gesetzt. 
+Die Anwendung auf zwei verschiedene Folgen/Signale wird hingegen als Kreuzkorrelation bezeichnet. 
+Auf diese Art wird allgemeine/lineare?, nicht-zufällige/signifikante Beziehung zwischen zeitlich versetzten 
+Folgengliedern gesucht. Ergebnisse werden in der \emph{Autokorrelationsfunktion} ($\mathbf{ACF}$) zusammengefasst.
+
+\textbf{FischerGetis2009 p.260}\\
+
+Analog zu diesen bekannten Einführungsbeispielen existieren Koeffizienten (bzw. Indizes) zur Erfassung einer 
+Autokorrelation von räumlich verteilten Messungen. In der räumlichen Analyse liegt ebenfalls die Annahme zugrunde, 
+dass Beobachtungswerte ähnlicher sind, je näher beieinander ihre Positionen im Raum liegen.
+(dass räumlich benachbarte Beobachtungen einer Variablen/Attributs ähnlicher sind als weit entfernte). 
+Dieses Konzept wird durch \emph{Toblers erstes Gesetz der Geographie} aus Abschnitt \ref{subsec:tobler} begründet. 
+Dieser Zusammenhang ist bekannt als positive räumliche Autokorrelation, also eine Korrelation der Variablen mit sich selbst. 
+Es werden zwei Informationen verknüpft: die Ähnlichkeit der Beobachtungen/Messwerte mit der Ähnlichkeit der Positionen. 
+
+%ERGÄNZUNGEN
+
+Daten aus Punktprozessen und Geostatistik lassen sich direkt über die euklidische Norm räumlich in Beziehung setzen. 
+Für Gitterdaten liegen jedoch diskrete? Raumvariablen vor, und die räumliche Anordnung der Daten wird anders codiert/konstruiert/beschrieben.
+
+Die folgende Konzepte sind (vor allem/nur?) für Gitterdaten (engl. lattice data) relevant, wie im Abschnitt 4.3 definiert. 
+Im Gitter können sowohl Zonen als auch Punkte angeordnet werden. Die räumliche Information liegt hier diskret z. B. in Form 
+einer Regionenvariable s vor. Dieses (Daten)Gitter muss um Nachbarschaftsinformation (in Form einer Matrix?) ergänzt werden, 
+um für das weitere Vorgehen/Anwendung die Nachbarschaftsrelation (paarweise) eindeutig zu definieren. 
+Nachbarschaften können auf unterschiedliche/zahlreiche Arten konstruiert werden. 
+
+\section{Indizes und Tests}
+Räumliche Autokorrelation vergleicht parweise die Ähnlichkeit von Merkmalswerten 
+$z_i=Z\left(s_i\right) mit ~ z_j=Z\left(s_j\right)$ 
+in Bezug zur Nähe ihrer Lokationen (Raumpunkte/Polygone etc.) $s_i$ und $s_j$ und leitet die tendenzielle 
+(funktionale?) Beziehung ab. 
+Häufig verwendete Maße globaler Autokorrelation sind Moran’s I und Geary’s C, welche Spezialisierungen des folgenden 
+Kreuzproduktes darstellen (siehe Getis 1991 p.  ) (vgl. Anselin 1995):
+
+Ausgehend von der grundlegenden Repräsentation als Kreuzprodukt 
+\begin{equation}
+    \Gamma_{ij} =\sum_{i=1}^n \sum_{j=1}^n W_{ij} Y_{ij}
+\end{equation}
+(mit $\Gamma$ als Maß räumlicher Autokorrelation von $n$ georeferenzierten Beobachtungen) werden weitere Statistiken entwickelt. 
+Dabei repräsentieren die Gewichte $w_{ij}$ der Nachbarschaftsmatrix $W$ räumliche Beziehung einer 
+jeden Lokation $i$ zu allen anderen Standorten $j$ (gemäß einer der obigen Berechnungen). 
+In Variablenmatrix $Y$ werden die metrischen?/stetigen(continuous) Realisierungen $y_j=Y\left( s_j \right) $
+an verschiedenen Positionen $s_j$ um $s_i$ herum in Beziehung gesetzt. 
+Die Werte interagieren wahlweise paarweise additiv $\left(y_i+y_j\right)$, multiplikativ $\left(y_i \cdot y_j\right)$, 
+differenziert $\left(y_i-y_j\right)$ oder dividiert $\left(y_i / y_j\right)$. 
+Eine wichtige Voraussetzung ist ein räumlich konstanter Mittelwert $ \bbbe\left[Y\left(s\right)\right]=\mu$ ,
+welcher wie genau.....??(Schabenberger,Gotway 2005, p.21). 
+Ähnlichkeit der Attributswerte $y_i$ und $y_j$ kann durch folgende Maße ausgedrückt werden:
+\begin{eqnarray*}
+    U_{ij} & = &\left (y_i - \mu \right) \left( y_j-\mu \right) \\
+    U_{ij} & = &\left( y_i-\bar{y} \right) \left( y_j-\bar{y} \right) \\
+    U_{ij} & = &\left| y_i-y_j \right| \\
+    U_{ij} & = &\left( y_i-y_j \right)^2 \\
+\end{eqnarray*}
+Praktische relevante Beispiele sind aufgrund guter Berechenbarkeit und Interpretierbarkeit 
+das Kreuzprodukt der Form $\operatorname{REF1}=\left( y_i-\bar{y} \right) \left( y_j-\bar{y} \right)$ für Morans Index 
+sowie quadrierte Differenzen $\operatorname{REF2}=\left( y_i-y_j \right)^2$ für Gearys c. 
+Ist $\bar{y}$ konsistent für $\mu$, dann ist auch $\bbbe\left[ \left(y_i-\bar{y}\right)\left(y_j-\bar{y}\right) \right]$ 
+konsistenter Schätzer von $\operatorname{Cov} \left[ y_i , y_j \right]$. (BEWEIS?)
+Somit gibt Y eine (spezifische) Beziehung zwischen Realisierungen/Beobachtungeswerten an Punkt i 
+zu allen anderen Orten j der nichträumlichen Variablen wieder. 
+Weisen W und Y ähnliche Struktur auf (d.h. sowohl hohe als auch niedrige Werte liegen in in den 
+gleichen $\left(i,j\right)$-Zellen), so liegt ein hoher Grad positiver räumlicher Autokorrelation vor. 
+Bei gegenläufig übereinstimmenden Werten in den gleichen $(i,j)$-Zellen) liefert $\Gamma$ negative Autokorrelation. 
+Für eine sinnvolle Bewertung muss Y einen räumlichen Bezug widergeben und die W räumliche Struktur sinnvoll repräsentieren. 
+Weist auch nur eine der beiden Matrizen eine zufällige Verteilung auf, so liefert $\Gamma$ ein Maß von Null.
