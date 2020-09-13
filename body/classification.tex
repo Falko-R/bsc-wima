@@ -18,7 +18,7 @@ Abbildung \ref{fig_densitymaps} verdeutlicht das Konzept räumlicher Autokorrela
 Abhängigkeit verkompliziert die Analyse, da nicht von unabhängigen Daten ausgegangen werden kann. Abb 3.2 zeigt grob auf,
 welches Erscheinungsbild eine (über Verwaltungskreise) zufällig verteilte Bevölkerung aufwiese.
 
-\begin{figure} %[htb] %h=here, t=top, b=bottom, p=page of float
+\begin{figure}[htb] %h=here, t=top, b=bottom, p=page of float
     \centering %Bilder mittig statt am linken Rand ausgerichtet
     \begin{minipage}[b]{.45\linewidth} % [b] => Ausrichtung an \caption --> c (=Center) t (=Top) und b (=Bottom)
         % \linewidth entspricht hier \textwidth (=Breite Textbereich)
@@ -120,61 +120,174 @@ Daher wird nach Möglichkeit auf skaleninvariante Messgrößen zurückgegriffen.
 (Beispiele für dimensionslose Größen sind normalisierte Standardverteilungen und ihre Momente sowie 
 entparametrisierte Pivotzufallsgrößen. Auch ein Wiener Prozess ist skaleninvariant.)
 
-Zugleich treten Aggregationseffekte bei Änderung Räumlicher Auflösung oder Relationean und Abbildungen über verschiedene Maßstäbe auf.
-Dieses Problem ist als \emph{Problem des Trägerwechsel?}(engl. change-of-support problem - COSP) bekannt und 
-wurde durch Cressie (1996) beschrieben. Der räumliche Träger bezeichnet hierbei Form, Größe und Orientierung der Messungen. 
-Dieser Effekt beschreibt, wie eine räumliche Variable über einem ihr zugeordneten/assozierten Träger ihre räumliche Variation ändern kann, wenn 
-sie (als neu definierte Variable) über einen anderen Träger analysiert wird.
-Das Problem setzt sich in der statistischen Inferenz fort, (da Korrelation von den Varianzen abhängt?.). Werden Daten über eine bestimmten Konfiguration von Distrikten/Zonen
-gemittelt/aggregiert, so stimmten aus dieser Zusammenfassung gezogene Schlüsse/Inferenzen nicht notwendig überein mit den Schlüsse, die eine andere Konfiguration der Distrikte liefert.
-
-Das Problem tritt in unterschiedlichen Anendungen in verschiedenen Varianten auf. In der Interpolation sind begrenzte (lückenhafte) Rohdaten in einer feinen Auflösung 
-vorhanden und Inferenz wird in einer gröberen Auflösung, an weiteren Lokationen oder Zonen benötigt. 
-Auf dem Gebiet der \emph{Geostatistik} sind Bohrungen/Bohrkernproben und Gesteinsproben sind nur punktweise praktisch möglich (und einige cm³ groß), 
-wodurch von einer aggregierte Stichprobe an Bohrungen auf die Grundverteilung von Mineralien und Erzadern (mit vielen m³ Volumen) extrapoliert(?) werden muss. 
-
-Als Spezialfall des COSP für \emph{Gitterdaten} (KapitelXX) addressiert das \emph{Problem der veränderbaren Gebietseinheit} (engl. modifiable areal unit problem - MAUP)
-die Aggregation von punktbasierten bzw. kontinuierlichen Messgrößen/regionalisierten Variablen über uneinheitlich diskrete Raumzonen als zusätzliche Fehlerquelle. 
+Darüber hinaus treten Aggregationseffekte bei Änderungen der räumlichen Auflösung sowie Vergleichen/Beziehungen über/zwischen verschiedene Maßstäbe auf.
+Dieses Problem ist als \emph{Problem des Trägerwechsel?/veränderlicher Bezugsregion}(engl. change-of-support problem - COSP) bekannt und 
+wurde durch Cressie (1996) formalisiert. Der räumliche Träger bezeichnet hierbei Form, Größe und Orientierung der Messeinheiten, 
+abstrakt beschrieben durch Punkte, Linien oder Flächen/Gebiete als Merkmale (engl. features) des Raumes. 
+Eine Änderung der Merkmale des Trägers einer Variablen, etwa durch Aggregation, erzeugt/definiert eine neuartige Variable mit neuen/abweichenden statistischen und räumlichen Eigenschaften.
+Die Beziehung der räumlichen Variation beider Variablen ist der Kern des COSP. (Waller Gotway S.107)
 Das Problem manifestiert sich durch Instabilität statistischer Resultate bei Änderung der Aggregationsweise. 
-Dem liegen (bei Aggregation durch räumliche Unterteilung) zwei mögliche Effekte/Aspekte/Fazetten zugrunde, da die beobachteten 
-Variablen sowohl von Größe/Maßstab (Skalierung) als auch der genauen Form und Konfiguration (Zoneneffekt bzw. Aggregationseffekt) der erzeugten Raumeinheiten/Zonen für einen gewählten Maßstab
-beeinflusst werden und auf deren Änderungen reagieren. 
+Zum Beispiel ließe sich Bevölkerungseinkommen als räumliche Variabe über dem Träger der punktgenauen Wohnadressen erfassen und ihre Variation betrachten.
+Eine Aggregation der Daten in Stadtviertel als weiteren möglichen Träger resultiert in einer anderen Variation der Einkommensvariablen.
+
+
+Das Problem tritt für unterschiedliche Anwendungen in vielfältigen Varianten auf.  
+Auf dem Gebiet der \emph{Geostatistik} sind Bohrkernproben im Gestein nur punktweise praktisch möglich (und einige cm³ groß), 
+wodurch von einer Stichprobe an Bohrungen auf die Grundverteilung von Mineralien und Erzadern (mit vielen m³ Volumen) inter- und extrapoliert werden muss. 
+In der Interpolation sind begrenzte Rohdaten in einer feinen Auflösung lückenhaft vorhanden und Inferenz wird in einer gröberen Auflösung (Umgebung der Bohrungen), 
+über weiteren Lokationen oder Zonen benötigt.
+
+% Das Format sogenannter \emph{Gitterdaten} wird im folgenden Abschnitt behandelt und am Beispiel der Bundesländer
+Als Spezialfall des COSP für \emph{Gitterdaten} (KapitelXX) addressiert das \emph{Problem der veränderbaren Gebietseinheit} (engl. modifiable areal unit problem - MAUP)
+die Aggregation von punktbasierten, kontinuierlichen Messgrößen (regionalisierten Variablen) über diskrete Raumzonen als zusätzliche Fehlerquelle. 
+Abbildung \ref{fig_zoning} stellt Aggregationseffekte einer einfachen Zählvariablen schematisch dar.
+
+\begin{figure}[htb] %h=here, t=top, b=bottom, p=page of float
+    \centering %Bilder mittig statt am linken Rand ausgerichtet
+    \begin{minipage}[b]{.32\linewidth} % [b] => Ausrichtung an \caption --> c (=Center) t (=Top) und b (=Bottom)
+        % \linewidth entspricht hier \textwidth (=Breite Textbereich)
+        %\centering
+        %                                 trim = links unten rechts oben
+        \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/41-maup_1.pdf} % [scale=0.5] oder [width=\linewidth]
+       %\includegraphics[scale=0.4,trim={1cm 2cm 1cm 2cm},clip]{body/figures/popdens2018.pdf} % [scale=0.5] oder [width=\linewidth]
+       %[width=\textwidth] entspricht [width=\linewidth] (=Breite einer Minipage)
+       %\caption{erste Nachbarn}
+    \end{minipage} % <- sonst wird hier ein Leerzeichen eingefügt
+    \hfill
+    %\hspace{.1\linewidth}% Abstand zwischen Bilder
+    \begin{minipage}[b]{.32\linewidth}
+        %\centering
+       \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/42-maup_2.pdf}
+       %\caption{zweite Nachbarn}
+    \end{minipage}
+    \hfill
+    %\hspace{.1\linewidth}% Abstand zwischen Bilder
+    \begin{minipage}[b]{.32\linewidth}
+        %\centering
+       \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/43-maup_3.pdf}
+       %\caption{zweite Nachbarn}
+    \end{minipage}
+    \caption[Zoneneffekt]{Einfacher Zoneneffekt für 3 Konfigurationen von 4 Zonen }
+    \label{fig_zoning}
+ \end{figure}
 
 Dies betrifft beispielsweise die Angabe von Bevölkerungsdaten, welche zwar theoretisch punkteweise an adressgenauen Lokationen oder GPS-Raumpunkten erfasst werden können, 
-aber z.B. aus Datenschutzgründen ohne genaue Adresse erfasst werden und stattdessen auf Gemeindeebene zusammengefasst sind. Viele geografische Rohdaten sind nur als derartige 
-Zähldaten/Raten per Raumeinheit bzw. Zone verfügbar. Diese sind typischerweise willkürlich, zeitlich veränderlich und haben oft keine intrinsische 
-geografische Bedeutung (Fischer,Getis 2009- Handbook S.213).
+aber aus Datenschutzerwägungen oder aufgrund der Verwaltungsmethodik ohne genaue Adresse erfasst werden und stattdessen auf Gemeindeebene zusammengefasst sind. 
+Viele geografische Rohdaten sind nur als derartige Zähldaten/Raten per Raumeinheit bzw. Zone verfügbar. 
+Diese sind typischerweise willkürlich, zeitlich veränderlich und haben oft keine intrinsische geografische Bedeutung (Fischer,Getis 2009- Handbook S.213).
 (Auch die Dichte der Population je Fläche ist theoretisch messbar in $\epsilon$-Umgebung von punktgenauen, (stetigen) Raumpunkten.) 
 Praktisch aber wie die Rohdaten auf Zonen verdichtet, erlaubt sie zumindest den Vergleich verschieden großer Zonen.
 Aggregiert (z.b. Mittelwertbildung) werden diese über Verwaltungszonen wie etwa Bundesländer.  
-Die Bevölkerungswerte beliebiger Raumpunkte auf einer nach Bundsländern aufgeteilten Karte lassen durch Modifikation der Aggregation nach Gemeinden abändern. 
-Diese Änderung der räumlichen Auflösung (engl. spatial resolution) und der Vergleich von Daten unterschiedlicher Auflösung wird als \emph{Skalierungseffekt} (engl. scale or aggregation effect) bezeichnet.
-Dies beinhaltet auch das Problem einiger großflächiger Gemeinden im direkten Vergleich mit sehr kleinen Gemeinden und somit unterschiedlicher Auflösungen/Granularität innerhalb einer Analyse.
-Werden dagegen bei konstanter Auflösung mit gleichbleibender Granularität/Anzahl der Raumeinheiten einzelne Grenzverläufe (hin zu einer neuen Konfiguration) verschoben, 
-so wird diese Inkonsistenz als \emph{Zoneneffekt} (engl. grouping or zoning effect) bezeichnet. Mit den selben Daten können durch unterschiedliche Aggregationskonfigurationen 
-sehr unterschiedliche Ergebnisse erzielt werden. Dieser Effekt kann Fehler und Missinterpretationen verursachen, wird aber auch zur bewussten Manipulation eingesetzt. 
+% Die Bevölkerungswerte beliebiger Raumpunkte auf einer nach Bundsländern aufgeteilten Karte lassen durch Modifikation der Aggregation nach Gemeinden abändern. 
+
+Dem Aggregationsproblem liegt im Detail das Zusammenspiel zweier zusammenhängender Effekte zugrunde. 
+Zum einen kann eine feste Stichprobe über unterschiedlich feine Partitionen der Gebietsflächen verdichtet werden. 
+Daraus resultiert ein Vergleich von Daten unter verschiedenen räumlichen Auflösungen (engl. spatial resolution) bzw. Maßstäben (engl. spatial scale)
+und wird als \emph{Skalierungseffekt} (engl. scale or aggregation effect) bezeichnet.
+Dies beinhaltet auch das Problem unterschiedlicher Granularität innerhalb einer Auflösungsstufe. 
+So stehen etwa einige großflächige (dünnbesiedelte) Gemeinden im direkten Vergleich mit sehr kleinen (dichtbesiedelten) Gemeinden.
+Werden hingegen bei fester/gegebener Auflösung mit konstanter Anzahl der Raumeinheiten einzelne Grenzverläufe verschoben und Gebietseinheiten so zu einer neuen Konfiguration verformt, 
+so werden resultierende Inkonsistenzen räumlicher Variation und Ergebnisschwankungen der Inferenz als \emph{Zoneneffekt} (engl. grouping or zoning effect) bezeichnet. 
+Theoretisch wäre eine Situation denkbar, in der (per Volksentscheid) ein Bundesland/Distrikt/Land Teilgebiete an ein anderes übergibt 
+oder für eine feste Anzahl Verwaltungszonen neue Abgrenzungen/Grenzverläufe definiert werden.
+Abbildung \ref{fig_zoning2} gibt schematisch den Zoneneffekt einer räumlichen Variable bei Mittelwertbildung wieder.
+
+\begin{figure}[htb] %h=here, t=top, b=bottom, p=page of float
+    \centering %Bilder mittig statt am linken Rand ausgerichtet
+    \begin{minipage}[b]{.32\linewidth} % [b] => Ausrichtung an \caption --> c (=Center) t (=Top) und b (=Bottom)
+        % \linewidth entspricht hier \textwidth (=Breite Textbereich)
+        %\centering
+        %                                 trim = links unten rechts oben
+        \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/44-zon_a.pdf} % [scale=0.5] oder [width=\linewidth]
+       %\includegraphics[scale=0.4,trim={1cm 2cm 1cm 2cm},clip]{body/figures/popdens2018.pdf} % [scale=0.5] oder [width=\linewidth]
+       %[width=\textwidth] entspricht [width=\linewidth] (=Breite einer Minipage)
+       %\caption{erste Nachbarn}
+    \end{minipage} % <- sonst wird hier ein Leerzeichen eingefügt
+    \hfill
+    %\hspace{.1\linewidth}% Abstand zwischen Bilder
+    \begin{minipage}[b]{.32\linewidth}
+        %\centering
+       \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/45-zon_b.pdf}
+       %\caption{zweite Nachbarn}
+    \end{minipage}
+    \hfill
+    %\hspace{.1\linewidth}% Abstand zwischen Bilder
+    \begin{minipage}[b]{.32\linewidth}
+        %\centering
+       \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/46-zon_c.pdf}
+       %\caption{zweite Nachbarn}
+    \end{minipage}
+    \caption[Zoneneffekt]{Zonneneffekt für 3 (bzw. 2) Konfigurationen von 4 (bzw. 8) Zonen }
+    \label{fig_zoning2}
+ \end{figure}
+
+Weiterhin gibt es:
+
+\begin{figure}[htb] %h=here, t=top, b=bottom, p=page of float
+    \centering %Bilder mittig statt am linken Rand ausgerichtet
+    \begin{minipage}[b]{.32\linewidth} % [b] => Ausrichtung an \caption --> c (=Center) t (=Top) und b (=Bottom)
+        % \linewidth entspricht hier \textwidth (=Breite Textbereich)
+        %\centering
+        %                                 trim = links unten rechts oben
+        \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/47-zon_d.pdf} % [scale=0.5] oder [width=\linewidth]
+       %\includegraphics[scale=0.4,trim={1cm 2cm 1cm 2cm},clip]{body/figures/popdens2018.pdf} % [scale=0.5] oder [width=\linewidth]
+       %[width=\textwidth] entspricht [width=\linewidth] (=Breite einer Minipage)
+       %\caption{erste Nachbarn}
+    \end{minipage} % <- sonst wird hier ein Leerzeichen eingefügt
+    \hfill
+    %\hspace{.1\linewidth}% Abstand zwischen Bilder
+    \begin{minipage}[b]{.32\linewidth}
+        %\centering
+       \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/48-zon_e.pdf}
+       %\caption{zweite Nachbarn}
+    \end{minipage}
+    \hfill
+    %\hspace{.1\linewidth}% Abstand zwischen Bilder
+    \begin{minipage}[b]{.32\linewidth}
+        %\centering
+       \includegraphics[width=\linewidth,trim={0.5cm 0.5cm 0.5cm 0.5cm},clip]{body/figures/49-zon_f.pdf}
+       %\caption{zweite Nachbarn}
+    \end{minipage}
+    \caption[Zoneneffekt]{Zonneneffekt für 5 Konfigurationen von 4 Zonen }
+    \label{fig_zoning3}
+ \end{figure}
+
+Ein Datensatz kann somit durch unterschiedliche Aggregationskonfigurationen verschiedene Ergebnisse erzeugen. %doppelt?
+Dieser Effekt kann Fehler und Missinterpretationen verursachen, wird aber auch zur bewussten Manipulation eingesetzt. 
 In der politischen Festlegung von Wahldistrikten sind insbesondere in den USA das \emph{gerrymandering} und \emph{political redistricting} als Wahlbeinflussung hochumstritten.
 Aber auch in unserem vorliegenden Forschungsprojekt sind die (willkürlichen) Gemeindeverläufe kritisch zu beachten. Die Analyse wird verzerrt, sobald der zugrundeliegende, datengenerierende
 Prozess nicht ausreichend exakt durch die Partition gedeckt ist und übereinstimmt. 
-Eine Miskonfiguration/Fehlspzifizierung des Modells erzeugt bereits eine räumliche "Schein"-autokorrelation. Andererseits können auch räumliche Muster/Informationen in den Residuen verschwinden.
-Verwaltungsgrenzen sind oft willkürlich gesetzt und ändern sich im Zeitverlauf. 
+Eine Miskonfiguration/Fehlspezifizierung des Modells erzeugt bereits eine räumliche "Schein"-autokorrelation. 
+Andererseits können auch räumliche Muster/Informationen in den Residuen verschwinden.
+Verwaltungsgrenzen sind oft willkürlich gesetzt und ändern sich im Zeitverlauf. %DOPPELT
 Auch wenn diese Grenzen ex-ante vorgegeben sind, so weist dieser Bias auf die direkte Abhängigkeit der Ergebnisse vom Aggregationsvorgang hin. 
 Weitere Zerlegungsprobleme werden in Kapitel XX aufgezeigt. 
 Die exakte Untersuchung von räumlichen Mustern und Kenngrößen wird durch derartige Aggregation behindert. Im Gegensatz zu systematischer Informationsverdichtung nach 
-statistischer Methodik handelt es sich um inkonsistente Rohdatensätze bereits zu Analysebeginn. (Anselin and Getis, 1992?). 
+statistischer Methodik welche (für sinnvolle Kennzahlanalyse?) notwendig ist, handelt es sich um inkonsistente Rohdatensätze bereits zu Analysebeginn. (Anselin and Getis, 1992?). 
 
 Zugleich muss in der Analyse zwischen verschiedenen Aggregationsstufen transformiert werden 
 (data downscaling - data disaggregation und data upscaling via integration/aggregation reduces spatial heterogeneity ).
 upscaling’ (aggregation) and ‘downscaling’ (disaggregation).
 
+Das Problem setzt sich in der statistischen Inferenz fort, (da Korrelation von den Varianzen abhängt?.). 
+Die Problematik geht aber weit über Varianzen und Korrelationen hinaus und betreffen Regressionen, hierarchische Methoden und weitere räumlich statistische Methoden (Waller Gotway, S.106).
+Werden statistische Kennzahlen über eine bestimmte Konfiguration von Distrikten/Zonen gebildet (gemittelt/aggregiert), 
+so stimmen aus dieser Zusammenfassung gezogene Schlüsse/Inferenzen nicht notwendig überein mit den Schlüssen, die eine andere Konfiguration der Distrikte liefert.
+Besonders bei der Ableitung von individuellen Kennzahlen (Risikokenngrößen usw) für einzelne Individuen aus regionalen/lokalen Gebietsdaten muss mit Vorsicht agiert werden. 
+Auch wenn die Verhältnisse/Maße/Anteile gebietsübergreifend stabil sind und die Populationen ähnlich groß eingeteilt sind. (Waller Gotway, S.104 - schwache Ref..)
+
 Der Begriff wurde durch Openshaw and Taylor (1979) geprägt, indem sie systematisch demonstrierten, 
 wie sehr Korrelationskoeffizienten für einen festen Datensatz variieren können, indem nur die Raumpartition manipuliert wird.
-Über das zugrundeliegende Problem wird jedoch bereits seit den 1930er Jahren publiziert.
+Über das zugrundeliegende Problem instabiler Inferenz wird jedoch bereits seit den 1930er Jahren publiziert (Gehlke and Biehl 1934).
 
+Monmonier (1996 S.218 ff.) illustriert derartige Probleme/Effekte am berühmten Beispiel der Londoner Cholera-Karte des Mediziners John Snow aus dem Jahre 1856?, deren
+historische Bedeutung in Kapitel \ref{sec:generalmodel} noch deutlich wird.
+% Die punktgenauen Adressen von Choleratoten werden über 3 verschiedene Konfigurationen von Distrikten aggregiert und liefern widersprüchliche Aussagen.
+% Die ursprünglich erkennbaren Cluster werden verwässert ( Verwischen der Clusterpunkte?).
 
 Making statistical inferences about individuals based on aggregate data is flawed.
 
-Das MAUP ist die geografische Manifestation des \emph{Ökologischen bzw. Kollektiven Fehlschluss/Bias} (engl. ecological inference problem/fallacy), 
+Das MAUP ist die geografische Manifestation des \emph{Ökologischen bzw. Kollektiven Fehlschluss/Bias} (engl. ecological inference problem or fallacy), 
 1950 vom Statistiker William S. Robinson formuliert. 
 Dies bezeichnet den fehlerhaften Vergleich von Individuen verschiedener Gruppen auf Basis von Kenngrößen auf Gruppenlevel statt der gesamten Verteilungen der Messgrößen.
 
@@ -187,16 +300,16 @@ Openshaw (1984) concluded that it is unlikely that an analytical solution to the
 that arise when the partitioning of continuous space is implemented as well as the wide range of analytical tasks that aggregated data are required to perform (see also Wong 2009). 
 
 %(Gotway CA &Young LJ 2002) - Combining incompatible spatial data.
-solutions to the COSP including geostatistical solutions based on different forms of kriging and map overlay solutions (point in polygon, areal weighting, spatial smoothing and regression methods).
-also review multiscale modeling solutions (multiscale spatial tree models and Bayesian hierarchical models).
-the common solution strategy for COSP is to build a model from data with small support and use that to estimate parameters and make valid inferences.
+% solutions to the COSP including geostatistical solutions based on different forms of kriging and map overlay solutions (point in polygon, areal weighting, spatial smoothing and regression methods).
+% also review multiscale modeling solutions (multiscale spatial tree models and Bayesian hierarchical models).
+% the common solution strategy for COSP is to build a model from data with small support and use that to estimate parameters and make valid inferences.
 
 %Dray et. al 2012 - Community ecology in the age of multivariate multiscale spatial analysis
 %mismatches are among the reasons for finding spatial autocorrelation in analysing areal aggregates;
 %other reasons include substantive spatial processes in which entities influence each other by contagion, such as the adoption of similar policies by neighbours,
 %and model misspecification leaving spatially patterned information in the model residuals.
 
-FÜr gute Übersicht siehe \cite[S.104]{waller_applied_2004}
+FÜr eine gute Übersicht siehe \cite[S.104]{waller_applied_2004} und Haining S. 
 Für umfangreiche und tiefergehende Details siehe Fischer Handbook 2014 Kapitel 59, S.1157-1169
 sowie Gelfand et al. Handbook Kapitel 29, S.517-536 
 Probleme für Ökonometrie: Cressie 1998, Arbia,Petrarca
@@ -215,7 +328,9 @@ Probleme für Ökonometrie: Cressie 1998, Arbia,Petrarca
 
 % Manley, D. (2014). Scale, aggregation, and the modifiable areal unit problem. 
 % In M. M. Fischer & P. Nijkamp (Eds.), Handbook of regional science (pp. 1157–1171). Berlin: Springer-Verlag.
+
 \section{Allgemeines Modell räumlicher Stochastik}
+\label{sec:generalmodel}
 
 Die Grundkomponenten der mehrdimensionalen Lageanalyse sind räumlich verteilte Positionen 
 $\left\{ s_1 , s_2 ,\ldots , s_n \right\}$ mit an diesen Positionen beobachtete 
