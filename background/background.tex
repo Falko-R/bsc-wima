@@ -1,13 +1,139 @@
-\chapter{Background and Related Work}\label{ch:background} 
+\chapter{Datenlage und GIS Konzepte}
+\label{ch:background} 
 
-Explaining what your project does that is new or is better than existing work in the same field.
+Dieses Kapitel erläutert technische Voraussetzungen der Geoinformationssysteme (GIS) und ihrer räumlichen Datenanalyse, 
+bevor im darauf folgenden Kapitel die Theorie eingeführt wird.
 
-%Test citation \cite{cormen2009introduction}.
-\section{GIS Details}
+\section{GIS Software}
 
-Fischer Getis 2010, S. 55 
+Der Markt für GIS-Anwendungen ist breit gefächert und stark segmentiert. 
+Viele Anbieter sind auf Nischenlösungen spezialisiert und technische Neuerungen ändern die Marktverhältnisse fortwährend, 
+was sowohl auf der Entwicklungs- als auch Nutzerseite solcher Software für ständigen Bedarf an Fachpersonal sorgt. 
+Der seit den 80er Jahren etablierte ArcGIS-Anbieter ESRI sowie Open Source Alternativen wie QGIS, GRASS, und SAGA 
+sind insbesondere in der akademischen Forschung und bei Behörden verbreitet. Dies betrifft zudem R und Python, welche durch Pakete bzw. Bibliotheken zu voll funktionsfähigen
+GIS-Systemen erweiterbar sind sich hervorragend mit anderen Softwarelösungen integrieren lassen. Gegenüber klassischen relationalen Datenbanksystemen werden spezialisierte 
+GIS-Datenbanken benötigt, welche mit den speziellen Vektorgeometrien und Rasterdaten operieren können. PostGIS für PostgreSQL ist ein Beispiel für diese Entwicklung.
+Kommerzielle Lösungen wie Topobase und Map3D der Firma Autodesk, MicroStation von Bentley Systems sowie Geomedia von Intergraph finden 
+vorwiegend als spezialisierte Industrielösungen Anwendung. 
+Online-GIS mit Cloud-Anbindungen wie Google Maps, HERE und OpenStreetMap erweitern das Spektrum an Angeboten insbesondere für den privaten Endnutzer.\\
 
-Spatial Data in R
-\section{Quellen und Literatur}
+Die Daten dieser Arbeit wurden zunächst übersichtsweise mit MS Excel untersucht sowie nach relevanten Kriterien zusammengefasst und 
+schließlich mittels der Open-Source Scriptsprache R weiterverarbeitet, einheitlich archiviert und schließlich numerisch modelliert und ausgewertet. 
+Zwar ist der Umgang mit vielen Daten innerhalb von MS Excel zunächst intuitiver und interaktiver möglich, jedoch stößt die Software bei größeren Datensätzen schnell an Ihre Grenzen. 
+Insbesondere ist die Analyse außerhalb klassischer „Spreadsheets“ nur bedingt möglich und bietet nicht genug Funktionalität für komplexe Datenanalysen. 
+So exisitiert etwa keine Anbindung zur Auswertung geografischer Daten. Hierfür müsste etwa auf PowerBI, einer weiteren Software im Microsoft-Katalog zurückgegriffen werden.
+Außerdem werden die Rohdaten nicht getrennt von der Modellierung und Analyse bearbeitet. 
+Dies verletzt einen wichtigen Grundsatz für eine praktische und sichere Analyse in getrennten Dateien und verhält sich ähnlich zur Nutzung von LaTeX gegenüber Word.\\
 
-Tabelle XX liefert eine Auflistung der Standardwerke und Handbücher, wie sie auch in diese Arbeit eingeflossen sind.
+R liefert eine etablierte Platform und mit dem zentralen \emph{cran}-Register ein sehr stabiles System an Bibliotheken.
+Zu nennen sind insbesondere die Pakete \emph{dplyr} und \emph{ggplot2} aus dem Paketverbund \emph{tidyverse} von Hadley Wickham unter aktiven Entwicklung.
+Derartige Pakete stellen einen großen Vorteil gegenüber vielen anderen Lösungen dar. Für die Raumdaten bieten sich \emph{raster} als Paket für Rasterdaten sowie \emph{sf} für Vektordaten an,
+welches das etablierte Paket \emph{sp} ablöst. 
+Einen guten Überblick bieten \cite[S. 53]{fischer_handbook_2010} sowie \cite{bivand_applied_2013}. 
+
+\section{Projektionen und Koordinatensysteme}
+\label{ch:projections}
+
+Wichtige Grundbegriffe und Konzepte der raumdatenbezogenen Analyse sind die
+räumlichen \emph{Merkmale} (engl. features), \emph{Träger} (engl. supports) 
+und \emph{Attribute} (engl. attributes). \emph{Merkmale} bilden als Raumpunkte, Linien, Flächen und Volumen die Grundbausteine der Informationsverarbeitung. 
+Räumliche \emph{Träger} definieren die genaue Größe, Form und Orientierung der Merkmale als zusätzliche Referenzinformation. 
+Punkte etwa weisen weder Größe, Fläche noch Orientierung auf und besitzen den kleinsten Träger aller Merkmale. 
+Regionen hingegen unterscheiden sich in allen drei Dimensionen voneinander.
+\emph{Attribute} wiederum stellen Messwerte und Zufallsvariablen dar, welche mit den räumlichen \emph{Merkmalen} verknüpft werden.
+Für eine genaue Übersicht und weitere Details wird auf \cite[S.38]{waller_applied_2004} verwiesen.\\
+
+Das mathematische Teilgebiet der \emph{Geodäsie} behandelt die möglichst genaue Lokalisierung und Referenz
+räumlicher Merkmale auf der Erdoberfläche und bedient sich hierfür fundamentaler Konzepte aus Geometrie und Topologie. 
+Eine essentielle Grundlage bei der Arbeit mit georeferenzierten Daten bilden geographische und projizierte Koordinatensysteme.  
+
+Ein \emph{geographisches Koordinatensystem} (engl. geographic coordinate system) ($\mathbf{CGS}$) 
+definiert durch Längen- und Breitengrade ein perfektes sphärisches Koordinatensystem. 
+Dieses Gradnetz (engl. graticule) lokalisiert Orte eindeutig auf einer Sphäre 
+und mit Einschränkungen auf der imperfekten ellipsoiden Erdoberfläche.
+
+Zur einfacheren Analyse und Darstellung werden diese dreidimensionalen, sphärischen Daten 
+auf zweidimensionale Obeflächen wie Karten und Bildschirme projiziert. Diese Transformation 
+geht zwangsweise mit Verzerrungen von Form, Flächeninhalt, Distanzen und Richtungen einher. 
+Aus diesem Grund bestehen zahlreiche verschiedene Projektionen (e.g. Mercator, Albers) mit 
+einer eigenen Balance der Verzerrungen. Als Ausgangspunkt der Transformation bestehen verschiedene
+Standardellipsoide zur Approximation der Erdform. Die Orientierung und genaue Position 
+des Ellipsoids relativ zur Erde wird als \emph{geodätisches Datum} bezeichnet. 
+Ein lokales Datum approximiert dabei einen kleinen Teilbereich der Erdoberfläche besonders gut. 
+In dieser Analyse verwenden wir den Standard \emph{WGS84} (World Geodetic System of 1984).
+Nach der Projektion werden Vektoren, Polygone und Zentroide erzeugt. 
+\cite[S. 49]{waller_applied_2004} enthält hierzu detaillierte Berechnungsvorschriften.
+
+\section{Datengrundlage}
+
+Genutzt werden öffentlich verfügbare Daten zu Bevölkerungsgrößen, Arbeitsmarktsituation, 
+Flächeneigenschaften und weiteren Wirtschaftsdetails. 
+Die \emph{shape}-Dateien zur Analyse von Vektordaten von Gemeinden und Bezirken 
+sind durch das Geoportal Brandenburg und das OpenData Portal der Stadt Berlin frei verfügbar.
+
+\subsection{Merkmale und Attribute}
+Neben dieser Grundlage werden spezielle Daten des Unternehmensregisters über die Standorte von Unternehmen 
+aus allen erfassten Wirtschaftsbranchen nach WZ-Systematik genutzt. 
+Diese werden durch das \emph{Amt für Statistik Berlin-Brandenburg} öffentlich bereitgestellt.
+Die Daten sind für Brandenburg auf Gemeindeebene und für Berlin auf Bezirkslevel aggregiert 
+und liegen jahresweise zusammengefasst für einen Zeitraum von 2006 bis 2015 vor. 
+Die Unternehmensstandorte des Registers liegen aus Datenschutzgründen nicht als punktgenaue GPS-Standorte oder Adressen vor, 
+sondern geben nur die Gemeinde an, in welcher die Unternehmen angesiedelt sind. 
+Auf diese räumliche Verdichtung der Daten und damit verbundene Probleme wird in Abschnitt \ref{ch:aggregation} genauer eingegangen. 
+Weiterhin sind die Unternehmensgrößen nach Anzahl der Arbeitnehmer in 5 allgemeinen Größenklassen angegeben. 
+Zur besseren Berechnung wurde hieraus ein ganzzahliger Schätzwert der Unternehmensgröße abgeleitet, 
+um eine Beschränkung auf Methoden kategorischer Variablen zu vermeiden.  
+Weitere Merkmale über die Unternehmensgröße wie etwa Umsatz oder Flächennutzung fehlen hierbei. 
+Am problematischsten erweist sich jedoch die völlige Anonymisierung der einzelnen Unternehmen im Zeitberlauf. 
+Es ist unbekannt, welche Merkmalsausprägung ein einzelnes Unternehmen in anderen Jahren aufweist, oder ob es dort überhaupt exisitert. 
+Somit lassen sich einzelne Unternehmen weder örtlich noch zeitlich nachverfolgen und Aussagen über Standortwechsel können nur in allgemeiner Art und Weise getroffen werden.\\
+
+Ein \emph{Unternehmen} oder \emph{Firma} ist gemäß des Thüringer Landesamts für Statistik eine rechtlich selbständige Einheit eines Gewerbebetriebs. 
+Werden vom Unternehmen weitere selbständige, meist in anderen Orten befindliche Einheiten betrieben, 
+ohne dass sie ein Tochterunternehmen sind, werden diese \emph{Zweigniederlassung} genannt.
+
+In der Datenbank lassen sich sowohl Niederlassungen als auch Rechtliche Einheiten abrufen. 
+Es geht in der folgenden Analyse um die Verteilung allgemeiner Standorte einer ganzen Branche im Raum und deren allgemeine zeitliche Entwicklung. 
+Somit wird auf die Niederlassungen zugegriffen, welche zudem eine zahlenmäßig umfangreichere Datenbasis liefern.\\
+
+Weitere Auswahlmöglichkeiten bestehen bei unterschiedlichen Tabellenformaten zur Speicherung der Informationen einzelner Gemeinden. 
+Die Rohdaten wurden im für Datenbanken typischen LONG-Format heruntergeladen.  
+Diese sind für Menschen unpraktisch und schlecht zu überschauen, 
+für Programmfunktionen jedoch hervorragend geeignet und erlauben einen schnellen Datenabruf und effiziente Sortierung. 
+Viele Merkmale werden jedoch redundant gespeichert und die Dateigröße wird somit aufgebläht. 
+Datenbanken sind allerdings speziell für große Dateimengen ausgelegt und auf schnellen Abruf optimiert. 
+Dieses Format wurde für die Analyse in R in ein WIDE-Format umgewandelt wie es für übersichtliche Spreadsheets und Tabellen üblich ist. 
+Zudem passt es zu den Dataframes der Shapedateien und kann somit direkt verknüpft werden.
+
+\subsection{Raumeinheiten}
+
+Die räumlich feinste Gliederung bietet die sogenannte \glqq Raumabgrenzungen der Regionalstatistik auf Grenzen der administrativen Einheiten \grqq. 
+In Brandenburg bezeichnet dies die Gemeinden und in Berlin die Bezirke. 
+In Berlin existieren seit 2016 zudem Daten auf Ebene der Kieze, sogenannte \glqq Lebensweltlich orientierte Räume \grqq (LOR), 
+als wichtigste kleinräumige Gliederung, deren räumliche Abgrenzung nach fachlichen Kriterien festgelegt wurde. \\
+
+Derartige Grenzen werden aus administrativen und politischen Gründen im Zeitverlauf angepasst. 
+Diese Änderungen müssen bei Betrachtungen über längere Zeiträume in die Shape-Datei integriert werden, um einheitliche Referenzen und Formate bei der Datenanalyse zu gewährleisten. 
+Es handelt sich jedoch bisher in Brandenburg und Berlin ausschließlich um Eingemeindungen.
+Damit treten nur Vergröberugen der Partition aus Gemeinden im Zeitverlauf auf, bzw. Verfeinerungen der Partition bei einem Rückblick in vergangene Jahre, was den Aufwand erheblich vereinfacht.
+Beispiele für Eingemeindungen im Beobachtungszeitraum sind etwa die Integration von \glqq Hornow-Wadelsdorf\grqq{} in die Stadt Spremberg ab 2016 sowie die Eingemeindung von
+\glqq Madlitz-Wilmersdorf\grqq{} nach \glqq Briesen (Mark)\grqq{} ab 2014.
+
+%\section{Nichträumliche Analyse}
+
+%Ein Ansatz der Modellierung ist die Analyse räumlich stochastischer \emph{Punktprozesse} (engl. Point Pattern Analysis). 
+%Ein klassisches Beispiel ist der Poisson-Punkt-Prozess, mit Anwendungsfällen im Gesundheitswesen (Verbreitung von Epidemien) 
+%in der Ökologie und Botanik (Wanderungsverhalten von Tieren, Verteilung von Pflanzenarten) und vielen mehr. 
+%Wichtige Parameter sind die Intensität und… 
+%Im vorliegenden Anwendungsfall ist jedoch problematisch, dass aufgrund der räumlichen Aggregation von konkreten Unternehmensstandorten auf die gesamte Gemeindeebene 
+%kein kontinuierlich messbarer Raum vorliegt. Hier wurde behelfsmäßig mit Gemeindezentroiden gearbeitet, was zwar Ungenauigkeiten einführt, 
+%aber insbesondere die spätere Kombination mit nachträglich recherchierten, exakten Standorten erlaubt. 
+
+%Ein historischer Anwendungsfall, in welchem ebenfalls eine räumliche Aggregation eines realen Punktprozesses vorgenommen wurde, 
+%ist die Einteilung Londons in Planquadrate nach dessen Bombardierung durch die deutsche Luftwaffe im 2. Weltkrieg, 
+%um die Krater mit einer Poisson-Idealverteilung zu vergleichen und durch signifikante Abweichungen Hinweise auf die allgemeine Treffsicherheit der Bomber zu erhalten.
+
+%Diese Methodik ist streng genommen nicht räumlich, denn die Daten werden aggregiert und in ihrer Dimension reduziert. 
+%Es sollte grundsätzlich versucht werden, räumliche Daten so stark wie möglich zu vereinfachen und im besten Fall mit eindimensionalen Maßen zu arbeiten.
+%Ein hervorragendes Beispiel \dots
+%Erst danach sollte eine mehrdimensionale, räumliche Analyse stattfinden, welche ihre eigenen Probleme mit sich bringt, wie sie in Kapitel 3 beschrieben werden.

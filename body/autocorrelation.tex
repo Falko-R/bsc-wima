@@ -1,146 +1,161 @@
 \chapter{Räumliche Autokorrelation}
 \label{ch:autocorrelation}
 
-Räumliche: Autokorrelation/Abhängigkeit/Dependenz/Gebundenheit/Assoziation?/Verbindung/Zusammenhang/Zuordnung/Verbund
-/Verknüpfung/Verschränkung?/Verkettung? \\
+%Räumliche: Autokorrelation/Abhängigkeit/Dependenz/Gebundenheit/Assoziation?/Verbindung/Zusammenhang/Zuordnung/Verbund/Verknüpfung/Verschränkung?/Verkettung? \\
 
-Lokation/Position/Messstelle\\
+%Lokation/Position/Messstelle/Raumpunkte/Polygone etc.\\
 
-Zone/Region/Areal/Bereich\\
+%Zone/Region/Areal/Bereich\\
 
-Gebiet/Beobachtungsraum/-gebiet
-
-\section{Theorie und Indizes räumlicher Autokorrelation}
+%Gebiet/Beobachtungsraum/-gebiet
 
 Ein wichtiges Konzept der räumlichen Statistik ist die \emph{räumliche Abhängigkeit} und daraus 
 resultierende \emph{räumliche Autokorrelation} (engl. spatial dependence and autocorrelation).
 Diese kann zum einen als Störfaktor gesehen werden, da statistische Tests verkompliziert werden. 
 Bei räumlicher Autokorrelation liegt eine Abhängigkeit der Störgrößen des ökonometrischen Modells von regionalen 
 Untersuchungseinheiten vor. Dies führt bei Kleinste-Quadrate-Schätzungen zu Verzerrungen der Regressionskoeffizienten 
-oder Ungültigkeit der Signifikanztests. Zum anderen liefert diese zusätzliche Information Möglichkeiten 
+oder Ungültigkeit der Signifikanztests. Zum anderen liefert Autokorellation zusätzliche Information und Möglichkeiten 
 zur räumlichen Interpolation. Während Trendprognosen eine zeitliche Autokorrelation benötigen, 
-ermöglicht räumliche Autokorrelation (bzw. räumliche Persistenz) eine distanzabhängige Interpolation. 
-In diesem Kapitel werden Eigenschaften und Berechnung der Statistiken untersucht.
+ermöglicht räumliche Autokorrelation, bzw. räumliche Persistenz eine distanzabhängige Interpolation. 
+In diesem Kapitel werden Eigenschaften und Berechnung derartiger Statistiken untersucht.
 
-\subsection{Einführung}
-
-Die Korrelation (engl. correlation) beschreibt die funktionalen Beziehungen zwischen zwei 
+\section{Theorie und Indizes räumlicher Autokorrelation}
+%\subsection{Einführung}
+Die Korrelation (engl. correlation) beschreibt funktionale Beziehungen zwischen zwei 
 Variablen und liefert ein Maß für den Stärkegrad der Abhängigkeit zwischen den Variablenpaaren. 
-Der \emph{Bravais-Pearson'sche Korrelationskoeffizient} (auch: Produkt-Moment-Korrelationskoeffizient, Pearsons r) 
+Der \emph{Bravais-Pearson’sche Korrelationskoeffizient}, auch Produkt-Moment-Korrelationskoeffizient oder Pearsons r genannt, 
 erfasst den linearen Zusammenhang zweier annähernd normalverteilter Variablen und ist zur Messung der Abhängigkeit 
-metrischer und dichotomer Daten geeignet. Ein Wert von 0 gibt vollkommene Unkorreliertheit an, währen -1 exakt 
-negative und +1 exakt positive lineare Korrelation bedeutet. Im Gegensatz dazu sind \emph{Spearman's rho} und 
-\emph{Kendalls tau} als nichtparametrische/parameterfreie Rangkorrelationskoeffizienten auf ordinalskalierten Daten 
-ohne Verteilungsannahmen anwendbar.
+metrischer und dichotomer Daten geeignet. Im Gegensatz dazu sind \emph{Spearman’s rho} und 
+\emph{Kendall’s tau} als nichtparametrische Rangkorrelationskoeffizienten auf ordinalskalierten Daten ohne Verteilungsannahmen anwendbar.
 
-Autokorrelation misst die Korrelation eines Merkmals mit sich selbst und wird zwischen (zeitlich oder räumlich) 
-benachbarten Beobachtungen erfasst. Bei Messungen (bezüglich) eines Beobachtungsobjektes im Zeitverlauf ist es (i.A.) 
+Autokorrelation misst die Korrelation eines Merkmals mit sich selbst und wird zwischen zeitlich oder räumlich 
+benachbarten Beobachtungen erfasst. Bei Messungen eines Beobachtungsobjektes im Zeitverlauf ist es allgemein betrachtet
 wahrscheinlich, dass zeitlich nahe beieinander liegende Beobachtungen ähnlichere Messwerte liefern als solche mit 
-größerem zeitlichen Abstand. Messwerte ändern sich graduell(stetig) im Zeitverlauf, wenn auch nicht streng monoton. 
-Zeitliche Autokorrelation misst in der Zeitreihenanalyse den Grad der Assoziation zwischen Beobachtungsfolgen 
-(bzw. Signalen) oder Folgen von Zufallsvariablen in Einheiten bestimmter, meist äquidistanter, als Lags bezeichnete 
-Zeitabstände. Eine Folge wird zeitlich verschoben und zu sich selbst in Beziehung gesetzt. 
-Die Anwendung auf zwei verschiedene Folgen/Signale wird hingegen als Kreuzkorrelation bezeichnet. 
-Auf diese Art wird allgemeine/lineare?, nicht-zufällige/signifikante Beziehung zwischen zeitlich versetzten 
-Folgengliedern gesucht. Ergebnisse werden in der \emph{Autokorrelationsfunktion} ($\mathbf{ACF}$) zusammengefasst.
+größerem zeitlichen Abstand. Messwerte ändern sich stetig im Zeitverlauf, wenn auch nicht streng monoton. 
 
-\textbf{FischerGetis2009 p.260}\\
+Zeitliche Autokorrelation misst in der Zeitreihenanalyse den Grad der Assoziation zwischen Signalfolgen 
+oder Folgen von Zufallsvariablen in Einheiten bestimmter Zeitabstände, welche meist äquidistant auftreten und durch Lags gesteuert werden. 
+Eine Folge wird zeitlich verschoben und zu sich selbst in Beziehung gesetzt. 
+Auf diese Art wird eine signifikante Beziehung zwischen zeitlich versetzten 
+Folgengliedern gesucht. Ergebnisse werden in der \emph{Autokorrelationsfunktion} ($\mathbf{ACF}$) zusammengefasst. 
+Die Anwendung auf zwei verschiedene Folgen wird hingegen als Kreuzkorrelation bezeichnet.\\
 
-Analog zu diesen bekannten Einführungsbeispielen existieren Koeffizienten (bzw. Indizes) zur Erfassung einer 
+Während temporale Autokorrelation sich auf eindimensionale Nachbarschaft mit zwei möglichen Verlaufsrichtungen bezieht, 
+wird räumliche Autokorrelation zwischen räumlichen Objekten mit mindestens 2 Dimensionen gemessen, 
+deren räumliche Distanz nicht immer eindeutig bestimmt ist. Diese Objekte sind etwa Punkte, 
+Rasterzellen oder Gebiete in komplexen Polygonzügen wie etwa Gemeindegrenzen \cite[S.260]{fischer_handbook_2010}.
+
+Analog zu den Einführungsbeispielen existieren Koeffizienten und Indizes zur Erfassung einer 
 Autokorrelation von räumlich verteilten Messungen. In der räumlichen Analyse liegt ebenfalls die Annahme zugrunde, 
-dass Beobachtungswerte ähnlicher sind, je näher beieinander ihre Positionen im Raum liegen.
-(dass räumlich benachbarte Beobachtungen einer Variablen/Attributs ähnlicher sind als weit entfernte). 
+dass räumlich benachbarte Beobachtungen einer Variablen ähnlicher sind als weiter entfernte. 
 Dieses Konzept wird durch \emph{Toblers erstes Gesetz der Geographie} aus Abschnitt \ref{subsec:tobler} begründet. 
-Dieser Zusammenhang ist bekannt als positive räumliche Autokorrelation, also eine Korrelation der Variablen mit sich selbst. 
-Es werden zwei Informationen verknüpft: die Ähnlichkeit der Beobachtungen/Messwerte mit der Ähnlichkeit der Positionen. 
+Bekannt ist der Zusammenhang als positive räumliche Autokorrelation, also als eine Korrelation der Variablen mit sich selbst. 
+Es werden somit zwei Informationen verknüpft: die Ähnlichkeit der beobachteten Messwerte mit der Ähnlichkeit ihrer Positionen. 
 
-%ERGÄNZUNGEN
+Aus positiver Autokorrelation folgt im Umkehrschluss nicht notwendig eine negative Autokorrelation weiter entfernter Lokationen, 
+welche trotzdem oft in realen Daten beobachtet werden kann. 
+Es gibt darin eine begrenzte Entfernungsspanne um Beobachtungspunkte, innerhalb welcher postive Autokorrelation mit Nachbarn besteht. 
+Für größere Radien verschwindet diese oder schlägt in negative Autokorrelation um.
 
 Daten aus Punktprozessen und Geostatistik lassen sich direkt über die euklidische Norm räumlich in Beziehung setzen. 
-Für Gitterdaten liegen jedoch diskrete? Raumvariablen vor, und die räumliche Anordnung der Daten wird anders codiert/konstruiert/beschrieben.
-
-Die folgende Konzepte sind insbesondere für Gitterdaten (engl. lattice data) relevant, wie im Abschnitt 4.3 definiert. 
+Für Gitterdaten (engl. lattice data) liegen jedoch diskrete Raumbeziehungen vor, und die räumliche Anordnung der Daten wird anders kodiert.
+Die folgenden Konzepte sind insbesondere für derartige Gitterdaten relevant, wie im Abschnitt 4.3 definiert. 
 Im Gitter können sowohl Zonen als auch Punkte angeordnet werden. Die räumliche Information liegt hier diskret z. B. in Form 
-einer Regionenvariable $s$ vor. Dieses (Daten)Gitter muss um Nachbarschaftsinformation (in Form einer Matrix?) ergänzt werden, 
-um für das weitere Vorgehen/Anwendung die Nachbarschaftsrelation (paarweise) eindeutig zu definieren. 
-Nachbarschaften können auf unterschiedliche/zahlreiche Arten konstruiert werden. 
+einer Regionenvariable $s$ vor. Dieses Raumgitter muss um Nachbarschaftsinformationen in Form 
+der Nachbarschaftsmatrix aus Abschnitt \ref{ch:classification-neighbours} ergänzt werden, 
+um für das weitere Vorgehen die Nachbarschaftsrelationen paarweise eindeutig zu definieren. 
 
 \section{Indizes und Tests der Autokorrelationsmessung}
-Räumliche Autokorrelation vergleicht parweise die Ähnlichkeit von Merkmalswerten 
-$z_i=Z\left(s_i\right)$ mit $z_j=Z\left(s_j\right)$ 
-in Bezug zur Nähe ihrer Lokationen (Raumpunkte/Polygone etc.) $s_i$ und $s_j$ und leitet die tendenzielle 
-(funktionale?) Beziehung ab. 
-Häufig verwendete Maße globaler Autokorrelation sind Moran’s I und Geary’s C, welche Spezialisierungen des folgenden 
-Kreuzproduktes darstellen (siehe Getis 1991 p.  ) (vgl. Anselin 1995):
 
-Ausgehend von der grundlegenden Repräsentation einer räumlichen Statistik als Kreuzprodukt 
+Räumliche Autokorrelation vergleicht parweise die Ähnlichkeit von Merkmalswerten $y_i=Y\left(s_i\right)$ mit $y_j=Y\left(s_j\right)$ 
+in Bezug zur Nähe ihrer Lokationen $s_i$ und $s_j$ und leitet die tendenzielle, funktionale Beziehung ab. 
+Aufgrund vielfältiger Anwendungsfälle wurde eine breite Palette an Indizes entwickelt, 
+deren bekannteste Vertreter \emph{Moran’s I} und \emph{Geary’s C} im folgenden untersucht werden. 
+Alle Autokorrelationsmaße teilen sich als Spezialisierungen die folgende Grundform eines Kreuzproduktes. 
+%   (siehe Getis 1991 p.  ) (vgl. Anselin, Rey 2010 S.25):
+% Waller, GOtway  223
+% Schabenberger Gotway S. 19
+Die Repräsentation einer räumlichen Statistik als Kreuzprodukt 
 \begin{equation}
+    \label{eq:gamma}
     \Gamma_{ij} =\sum_{i=1}^n \sum_{j=1}^n W_{ij} Y_{ij}
 \end{equation}
-(mit $\Gamma$ als Maß räumlicher Autokorrelation von $n$ georeferenzierten Beobachtungen) werden weitere Statistiken entwickelt. 
-Dabei repräsentieren die Gewichte $w_{ij}$ der Nachbarschaftsmatrix $W$ die räumliche Beziehung einer 
-jeden Lokation $i$ zu allen anderen Standorten $j$. 
-In Variablenmatrix $Y$ werden die metrischen?/stetigen(continuous) Realisierungen $y_j=Y\left( s_j \right) $
-an verschiedenen Positionen $s_j$ um $s_i$ herum in Beziehung gesetzt. 
+von $n$ georeferenzierten Beobachtungen erlaubt die flexible Entwicklung zahlreicher Sonderformen. 
+Hierbei repräsentieren die Gewichte $w_{ij}$ der Nachbarschaftsmatrix $W$ die räumliche Beziehung einer jeden Lokation $i$ zu allen anderen Standorten $j$. 
+\cite[S. 259]{fischer_handbook_2010}
+
+In der Attributsmatrix $Y$ werden die Realisierungen $y_j=Y\left( s_j \right) $ an verschiedenen Positionen $s_j$ um $s_i$ herum in Beziehung gesetzt. 
 Die Werte interagieren wahlweise paarweise additiv $\left(y_i+y_j\right)$, multiplikativ $\left(y_i \cdot y_j\right)$, 
-differenziert $\left(y_i-y_j\right)$ oder dividiert $\left(y_i / y_j\right)$. (Fischer Getis 2010, S. 259)
-Eine wichtige Voraussetzung ist ein räumlich konstanter Mittelwert $ \bbbe\left[Y\left(s\right)\right]=\mu$ ,
-welcher wie genau.....??(Schabenberger,Gotway 2005, p.21). 
+differenziert $\left(y_i-y_j\right)$ oder dividiert $\left(y_i / y_j\right)$. \cite[S. 262]{fischer_handbook_2010}
 Ähnlichkeit der Attributswerte $y_i$ und $y_j$ kann durch folgende Maße ausgedrückt werden:
 \begin{eqnarray}
     U_{ij} & = &\left (y_i - \mu \right) \left( y_j-\mu \right) \\
     U_{ij} & = &\left( y_i-\bar{y} \right) \left( y_j-\bar{y} \right) \\
     U_{ij} & = &\left| y_i-y_j \right| \\
-    U_{ij} & = &\left( y_i-y_j \right)^2 \\
+    U_{ij} & = &\left( y_i-y_j \right)^2
 \end{eqnarray}
 Praktisch relevante Beispiele sind aufgrund guter Berechenbarkeit und Interpretierbarkeit 
-das Kreuzprodukt der Form $\operatorname{REF1}=\left( y_i-\bar{y} \right) \left( y_j-\bar{y} \right)$ für Morans Index 
-sowie quadrierte Differenzen $\operatorname{REF2}=\left( y_i-y_j \right)^2$ für Gearys c. 
+das Kreuzprodukt der Kovarianzform $\left( y_i-\bar{y} \right) \left( y_j-\bar{y} \right)$ für Morans Index 
+sowie quadrierte Differenzen $\left( y_i-y_j \right)^2$ für Gearys c. 
+Voraussetzung ist ein räumlich konstanter Erwartungswert $ \bbbe\left[Y\left(s\right)\right]=\mu$.
 Ist $\bar{y}$ konsistent für $\mu$, dann ist auch $\bbbe\left[ \left(y_i-\bar{y}\right)\left(y_j-\bar{y}\right) \right]$ 
-konsistenter Schätzer von $\operatorname{Cov} \left( y_i , y_j \right)$. (BEWEIS?)
-Somit gibt $Y$ eine (spezifische) Beziehung zwischen Realisierungen/Beobachtungeswerten an Punkt $i$ 
-zu allen anderen Orten $j$ der nichträumlichen Variablen wieder. 
-Weisen $W$ und $Y$ ähnliche Struktur auf (d.h. sowohl hohe als auch niedrige Werte liegen in in den 
+konsistenter Schätzer von $\operatorname{Cov} \left( y_i , y_j \right)$ 
+\cite[S. 21]{schabenberger_statistical_2005}. \\    
+%(BEWEIS?)
+
+Somit gibt $Y$ eine spezifische Beziehung zwischen Beobachtungswerten an Punkt $i$ zu solchen an allen anderen Orten $j$ wieder. 
+Weisen $W$ und $Y$ ähnliche Strukturen auf (d.h. sowohl große als auch kleine Werte liegen in in den 
 gleichen $\left(i,j\right)$-Zellen), so liegt ein hoher Grad positiver räumlicher Autokorrelation vor. 
 Bei gegenläufig übereinstimmenden Werten in den gleichen $(i,j)$-Zellen) liefert $\Gamma$ negative Autokorrelation. 
 Für eine sinnvolle Bewertung muss $Y$ den räumlichen Bezug widergeben und $W$ die räumliche Struktur sinnvoll repräsentieren. 
-Weist auch nur eine der beiden Matrizen eine zufällige Verteilung auf, so liefert $\Gamma$ ein Maß von Null.
+Weist auch nur eine der beiden Matrizen eine zufällige Verteilung auf, so liefert $\Gamma$ ein Maß von Null. 
+Nachbarschaftsmatrix $W$ muss daher vorsichtig spezifiziert werden und die real vorliegenden, räumlichen Strukturen widerspiegeln. 
+Abschnitt \ref{ch:classification-neighbours} lieferte mögliche Formen und Konstruktionsdetails für $W$. \cite[S.259]{fischer_handbook_2010} \\
 
-Zahlreiche Maße und Tests sind auf dieser Basis etabliert und unterscheiden sich voneinander in der Struktur der Matrizen $W$ und $Y$. 
+Zahlreiche Maße und Tests sind auf dieser Basis etabliert und unterscheiden sich voneinander in der Struktur der Matrizen $W$ und $Y$ sowie ihren Skalierungsfaktoren. 
 Es können globale sowie lokale Maße und Tests abgeleitet werden. 
 Globale Statistiken aggregieren die Autokorrelation über die Gesamtheit der Daten. 
-Alle Elemente der $W$ und $Y$ Matrix mit ihren räumlichen Assoziationen werden gemeinsam ausgewertet und resultieren in einem einzelnen Ausgabewert.
-Lokale Maße (engl. Local indicators of spatial association – LISA) bewerten Autokorrelation üblicherweise mit Fokus auf einzelne räumliche Einheiten/Gebiete. 
-Somit beeinflusst nur eine Reihe der $W$ und $Y$ Matrix die Berechnung direkt. [FischerGetis2009 pp 26X-262]
-Sie geben für die Nachbarschaftswerte um eine feste/bestimmte Position den Grad der Abweichung von einer zufälligen Verteilung an. (Anselin et al. 2000) 
-Sie erlauben die Zerlegung globaler Indikatoren (wie Morans I) in die Anteile, welche die Messwerte einzelner Lokationen beitragen. (Anselin 1995, S. 94)
+Alle Elemente der $W$ und $Y$ Matrix mit ihren räumlichen Assoziationen werden gemeinsam ausgewertet und 
+fließen in einen einzelnen Ausgabewert zur Bewertung der Korrelationssituation im gesamten Beobachtungsgebiet ein.
+Lokale Maße (engl. Local indicators of spatial association) ($\mathbf{LISA}$) bewerten Autokorrelation hingegen mit Fokus auf einzelne räumliche Teilgebiete. 
+Somit beeinflusst nur eine Reihe der $W$ und $Y$ Matrix die Berechnung direkt. \cite[S. 262]{fischer_handbook_2010}
+Sie geben für die Nachbarschaftswerte um eine feste Position den Grad der Abweichung von einer zufälligen Verteilung an. %(Anselin et al. 2000) 
+Sie erlauben die Zerlegung globaler Indikatoren (wie Moran’s I) in die Anteile, welche die Messwerte einzelner Lokationen beitragen. \cite[S.94]{anselin_local_1995}\\
+
 
 In der Geostatistik drückt das Semi-Variogram den Grad der räumlichen Autokorrelation in einem Datensatz aus. 
 Analog hierzu wird eine Statistik als distanzabhängige Funktion betrachtet, indem ihre I-Werte für verschiedene Distanzbänder auf Basis der 
 Nachbarschaftsmatritzen $W(1), W(2),\ldots,W(q)$ für Nachbar ersten bis q-ten Grades abgetragen werden.
 
 \subsection{Globale Autokorrelationsmaße}
+\label{ch:autocorrelation-GISA}
+Ziel globaler Autokorrelationsindizes ist die Zusammenfassung des Ausmaßes, in welchem ähnliche Beobachtungen in räumlicher Nähe zueinander vorkommen.
+Als Summation über das gesamte Beobachtungsgebiet werden keine individuellen Cluster ermittelt, sondern auf eine allgemeine, gebietsübergreifende Clusterung getestet.
 
 \subsubsection{Gamma}
-Als Basisfunktion aller weiteren Maße und Tests wurde diese Statistik (3.1) vorgestellt. 
-Durch die Randomisierung der Werte der Y Matrix in einer Reihe von Simulationsläufen wird (die Hülle einer) eine Referenzverteilung erzeugt. 
-Der tatsächliche Wert liegt im Signifikanzbereich
+Als Basisfunktion aller weiteren Maße und Tests wurde diese Statistik durch Ausdruck \ref{eq:gamma} eingeführt. 
+Durch die Randomisierung der Werte der Y Matrix in einer Reihe von Simulationsläufen wird die Hülle einer Referenzverteilung erzeugt. 
+Liegt der tatsächliche Wert im kritischen Bereich, so liegt signifikante Autokorrelation vor.
+Details liefern \cite[S. 262]{fischer_handbook_2010} und \cite[S. 15]{schabenberger_statistical_2005}.
 
 \subsubsection{Join-count}
-Darüber hinaus existiert der joint-count Index für nominal klassifiezierte Daten...
+Darüber hinaus existiert der \emph{Join-Count} Index für nominal klassifizierte Daten ...
+Ein Anwendungsbeispiel sind Klassifizierungen von Raumeinheiten nach Landnutzungstypen. 
+Es werden hier paarweise die Klassen der räumlich benachbarten Einheiten verglichen und auf statistisch signifikante Häufungen geprüft.
+Genaue Ausführungen finden sich in \cite[S. 19]{schabenberger_statistical_2005} sowie \cite[S.263]{fischer_handbook_2010}.
+% see Cliff and Ord 1981 for details
 
-\subsubsection{globaler Moran Index}
-Der globale Moran Index (engl. global Moran’s I) 
+\subsubsection{Globaler Moran Index}
+Der globale Moran Index (engl. global Moran’s I) nach Patrick A. P. \cite{moran_notes_1950} 
 misst als Statistik den Grad sowohl positiver als auch negativer Autokorrelation. 
 Er ist als Produktmoment wie der Pearson Korrelationskoeffizient strukturiert. 
 Jedoch wird, unter zusätzlichen Integration der räumlichen Information aus Matrix $W$, 
 die Autokorrelation einer Variablen mit sich selbst gemessen statt einer klassischen Korrelation zweier Variablen miteinander. 
 
-
 \begin{definition}[Moranscher Index] \label{def:global-moran}
     Analog zur Pearson Statistik erfolgt eine Skalierung. 
     Der Vorfaktor  $n \big/ \left( \sum_{i=1}^{n} \sum_{j=1}^{n} w_{ij} \sum_{i=1}^{n} \left(y_i-\bar{y}\right)^2 \right) $ 
-    ergibt die folgende Statistik zur Beziehung eines Datenpunktes (e.g. Einkommen) mit seinen Umgebungswerten (Moran 1950, p.22):
+    ergibt die folgende Statistik zur Beziehung eines Datenpunktes (e.g. Einkommen) mit seinen Umgebungswerten: \cite[S.22]{moran_notes_1950}
     
 \begin{equation}
     I=\frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n} w_{ij}} 
@@ -149,33 +164,50 @@ die Autokorrelation einer Variablen mit sich selbst gemessen statt einer klassis
 \end{equation}
 
 Hierbei sind: 
-	$y_i=$ i-ter Beobachtungswert der räumlichen Variable $y$
-	$w_{ij}=$ Distanzgewichte der räumlichen Beobachtungen(?)
-	$n=$ Anzahl Beobachtungen/Stichprobengröße
-	$S_0= \sum_{i=1}^{n} \sum_{j=1}^{n} w_{ij}$
+\begin{itemize}
+    \item $y_i=$ i-ter Beobachtungswert der räumlichen Variable $Y$
+    \item $w_{ij}=$ Distanzgewichte der räumlichen Beobachtungen
+    \item $n=$ Anzahl Beobachtungen der Stichprobe
+    %\item $S_0= \sum_{i=1}^{n} \sum_{j=1}^{n} w_{ij}$
+\end{itemize}
 
 \end{definition}
+%Unterscheidung zwischen Univariat und Multivariat
+%Unterscheidung zwischen Maß/Statistik und emp. Stichprobe
 
 Matrix $W$ kann in beliebiger Form aufgestellt werden und beschränkt die räumliche Interpretation nicht. 
 Somit ist der Test sehr flexibel, aber auch auch anfällig gegen Ausreißer und Fehlspezifikationen der Nachbarschaftsbeziehungen. 
-Matrix $Y$ in Form einer Kovarianzmatrix misst die Abweichungen der Beobachtungen vom Mittel aller Beobachtungen.
-(Fischer, Getis 2010, S 263-265)
+Matrix $Y$ in Form einer Kovarianzmatrix misst die Abweichungen der Beobachtungen vom Mittel aller Beobachtungen. \cite[S. 263]{fischer_handbook_2010}
+
 Es ist Konvention, keine Selbstassoziation zu erfassen (i ist ungleich j). 
-Durch Standardisierung der Gewichte können Ausgabewerte der I-Statistik auf die Spanne [-1,1] eingeschränkt werden. 
-Die lokale Variante als Weiterentwicklung der Moran I Statistik wird in Abschnit XXX behandelt.
-(?)Die Nullhypothese geht davon aus, dass keine  ......
+Durch Standardisierung der Gewichte können Ausgabewerte des Index auf die Spanne [-1,1] eingeschränkt werden. 
+Die lokale Variante als Weiterentwicklung der Moran I Statistik wird in Abschnit \ref{ch:autocorrelation-LISA} behandelt.
+Zuvor wird im folgenden Teilabschnitt die Nutzung der I-Statistik zur statisitischen Inferenz erläutert.
 
-schernthanner S. 49
-Dpl Arbeit Strauß S.18
-Fischer Getis 2010 S. 265
-Haining S. 243
-Goodchild S. 16
+%schernthanner S. 49
+%Dpl Arbeit Strauß S.18
 
-\subsubsection{Gearyscher Index}
+% Fischer Getis 2010 S. 265
+% Haining S. 243
+% Goodchild S. 16
+% Waller, Gotway S: 227
+% Eckard, Mateu 2019 S.7
 
-Bekannt als Gearysches Nachbarschaftsverhältnis oder Gearyscher Index (engl. Geary’s c, Geary's Contiguity Ratio), 
-liegt der Unterschied zur Moran Statistik in der Berechnung der Attribute durch Kreuzprodukt als $Y_{ij}=\left(y_i-y_j\right)^2$. 
-Die Gewichtsmatrix X kann wie im Moran Index verwendet werden und erlaubt die gleiche Flexibilität. Geary's c ist jedoch sensitiver bezüglich lokaler Autokorrelation.
+% Fischer, Wang 2011 S.23
+% mathur2014 spatial autocorrelationanalysis S.508
+
+% Fischer, Nijkamp 2014 Chapter 75 Filtering etc
+
+% Tiefelsdorf (2000) 
+% Griffith2003SpatialAutocorrelationAndFiltering
+% Haining 1990, p. 234
+% Bailey and Gatrell 1995,p. 270)
+
+\subsubsection{Globaler Gearyscher Index}
+
+Bekannt als Gearysches Nachbarschaftsverhältnis oder Gearyscher Index (engl. Geary’s c, Geary’s Contiguity Ratio) (Geary, 1954). \cite{geary_contiguity_1954} 
+Der Unterschied zur Moran Statistik liegt in der Berechnung der Attribute durch das Kreuzprodukt $Y_{ij}=\left(y_i-y_j\right)^2$ auf Basis der Differenzen benachbarter Beobachtungen. 
+Die Gewichtsmatrix W kann wie im Moran Index verwendet werden und erlaubt die gleiche Flexibilität. Geary's c ist jedoch sensitiver bezüglich lokaler Autokorrelation.
 
 \begin{equation}
     c=\frac{n-1} {2 \sum_{i=1}^{n} \sum_{j=1}^{n} w_{ij}} 
@@ -183,136 +215,270 @@ Die Gewichtsmatrix X kann wie im Moran Index verwendet werden und erlaubt die gl
         {\sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2} ~, ~ i\neq j
 \end{equation}
 
-Die Ausgabewerte liegen im Bereich [0,2]. Ein Wert von 1 impliziert, dass keine räumliche Autokorrleation vorliegt.
-FischerGetis2009 p.265
+Weitere Unterschiede zum Moran Index sind eine unverzerrte Varianzschätzung per Faktor $n-1$ statt $n$ und die Quadrierung negativer Differenzen im Term $\left(y_i-y_j\right)^2$.
+Die Ausgabewerte liegen im Bereich [0,2]. Ein Wert von 1 impliziert, dass keine räumliche Autokorrleation vorliegt, während der Wert 0 eine perfekt positive 
+und Wert 2 perfekt negative Autokorellation signalisieren. \cite[S. 265]{fischer_handbook_2010}
 
 \subsubsection{Statistische Inferenz und Tests}
 
 Analog zur allgemeinen Mantel Statistik ist Inferenz für die I und c Statistik auf Basis von Permutationstests, 
 Monte-Carlo Tests oder auf asymptotischen Verteilungen von I und c basierten Approximationstests möglich. 
-Um Erwartungswert und Varianz von I und c abzuleiten sind zwei grundlegende Annahmen(Voraussetzungen) über die 
-zufällige Veteilung der Y-Werte möglich. 
-Die erste Annahme einer Normalverteilung (engl. Gaussianity assumption) sieht jeden einzelnen Y-Wert $y_i$ 
-als Realisierung einer eigenen gaussschen Zufallsvariablen mit Mittel $\mu$ und Varianz $\sigma^2$, 
-wobei jede Raumeinheit eine eigene Normalverteilung aufweist (wirklich?). 
 
-In der zweiten Annahme (engl. randomness assumption) werden Mittel und Varianz abgeleitet unter der Annahme 
-einer randomisierten Zuordnung/zufälligen Positionierung (engl. randomizing) der Y-Werte $y_i$ zu den einzelnen Gitterlokationen.
-Diese Zufallsverteilungsannahme interpretiert die Y-Werte als Realisierungen einer unform gleichverteilten Zufallsvariablen 
-(d.h. alle Realisierungen gleich wahrscheinlich...wirklich?) [Fischer,Getis 2009 p.264].
+Von der Voraussetzung einer Unabhängigkeit der Stichprobenwerte muss gegenüber der klassischen Statistik abgewichen werden.
+Geprüft wird an dessen Stelle die Hypothese einer zufälligen bzw. unkorrelierten Verteilung der Stichprobengrößen. 
+Wird diese Nullhypothese (selbst für große $\alpha$) nicht abgelehnt, was tendenziell auf eine zufällige Verteilung hindeutete, 
+darf jedoch nie eine Unabhängigkeit der Stichprobenwerte gefolgert werden.
+Die Voraussetzung identisch verteilter Stichprobengrößen mit konstanten Erwartungswerten und Varianzen über dem gesamten Stichprobenumfang bleibt bestehen, 
+und wird durch Begriffe wie \emph{Stationarität} und \emph{Populationshomogenität} angedeutet.
+Der Moran Index reagiert sensibel auf Ausreißer in der Stichprobe. Für den Geary Index gilt dies umso mehr, da eine Quadrierung der Differenzen erfolgt.\\
 
+Es sind zur Nullhypothese zwei grundlegende Verteilungsannahmen über die zufällige Veteilung der Y-Werte möglich. 
+\cite[S.22]{schabenberger_statistical_2005} sowie \cite[S. 264]{fischer_handbook_2010} weisen auf die Konsequenzen in der Ableitung von Erwartungswert und Varianz der Indizes hin.
+Die erste Annahme einer Normalverteilung (engl. gaussianity assumption) sieht die beobachteten Y-Werte $y_i$ 
+als Realisierung einer für jede Raumeinheit eigenen Gaussschen Zufallsvariablen mit identischen Mittelwerten $\mu$ und Varianzen $\sigma^2$.
+In der zweiten Annahme einer Randomisierung (engl. randomness assumption) besteht die Annahme 
+einer zufälligen Positionierung durch randomisierte Zuordnung der $Y$-Realisierungen $y_i$ zu den einzelnen Gitterlokationen.
+Diese Annahme interpretiert $Y$-Werte als Realisierungen einer gleichverteilten Zufallsvariablen und sieht alle Realisierungen als gleich wahrscheinlich an.
+\cite[S. 280]{bivand_applied_2013} weist auf die Berechnungsunterschiede hin. %Evtl. in den Analysepart?
 Die Randomisierungsannahme führt gegenüber der einfacheren Normalverteilungsannahme einen zusätzlichen Korrekturterm der Kurtosis ein. 
 Entspricht die Kurtosis der Attributswertverteilung der einer Normalverteilung, dann stimmen die Testergebnisse unter beiden Annahmen überein. 
-Um so mehr die Verteilung von einer Normalverteilung abweicht, desto kompensiert die Randomisierungsannahme durch Anheben der Varianz 
-und abnehmende Standard deviate? [Bivand 2013, p.280]
+Um so mehr die Verteilung von einer Normalverteilung abweicht, desto mehr kompensiert die Randomisierungsannahme durch Anheben der Varianz.
 
-Beide Annahmen (\glqq Gaussianity \grqq{} und \glqq randomness \grqq{}) resultieren im gleichen Erwartungswert der Indizes,
+Beide Annahmen der Normalverteilung (Subscript $\mathcal{N}$) und Randomisierung (Subscript $\mathcal{R}$) resultieren im gleichen Erwartungswert der Indizes,
 \begin{eqnarray}
-    \bbbe_{g} \left[I \right]=\bbbe_{r}\left[ I \right]=\frac{-1}{(n-1}
-    \bbbe_{g} \left[c \right]=\bbbe_{r}\left[ c \right]=1
+    \bbbe_{\mathcal{N}} \left[I \right]=\bbbe_{\mathcal{R}}\left[ I \right] =& \frac{-1}{(n-1)} \\
+    \bbbe_{\mathcal{N}} \left[c \right]=\bbbe_{\mathcal{R}}\left[ c \right] =& 1
 \end{eqnarray}
 
-während die Varianzen je nach Annahme voneinander abweichen:
-(weitere Details: Cliff and Ord 1981, p.21)
+während die Varianzen je nach Annahme voneinander abweichen und ihre Berechnung komplex ist: \\
+
+%  (weitere Details zu den Momenten: Cliff and Ord 1981, p.21)
+%  Cliff, A., Ord, J.: Spatial Processes - Models and Applications. Pion Limited, London (1981)
+
+Als Korrelationsindex ist der Moran I-Wert eine dimensionslose Größe. 
+Der realisierte Ausgabewert $\hat{I}$ einer Stichprobe hat allein keine direkte Aussagekraft, sondern ist erst im Bezug zu 
+Verteilungsmomenten der mathematischen Statistik $I$ interpretierbar. 
+Gilt $\hat{I}>\bbbe\left[I\right]$, dann weisen räumlich verbunde Lokationen tendenziell ähnliche Attributswerte auf. 
+Der Stärkegrad dieser positiven Autokorellation steigt mit dem Abstand $\left| \hat{I}-\bbbe\left[ I \right] \right|$ an. 
+Für $\hat{I}<\bbbe\left[ I \right]$ hingegen weisen räumlich verbundene Lokationen tendenziell unterschiedliche Attributswerte auf. 
+Die Interpretation der c Statistik von Geary verhält sich genau umgekehrt. 
+Für Werte $\hat{c}>\bbbe\left[c\right]$ liefern räumlich benachbarte Positionen tendenziell unterschiedliche Werte 
+und vice versa für $\hat{c}<\bbbe\left[c\right]$. [Schabenberger Gotway 2005, p.22]
 
 Ein Hauptgrund für die Popularität der Statistiken ist die asymptotische Normalverteilung der Ausgabewerte mit zunehmendem $n$ (Cliff and Ord 1973). 
-Der Index kann hiermit durch z-Werte der Normalverteilung bewertet werden. 
-Als Korrelationsindex ist der Moran I-Wert eine dimensionslose Größe. 
-Die Ausgabewerte sind nicht direkt interpretierbar, sondern erst im Bezug zu Verteilungsmomenten. 
-Gilt $I>\bbbe\left[I\right]$, dann weisen räumlich verbunde Lokationen tendenziell ähnliche Attributswerte auf. 
-Der Stärkegrad dieser positiven Autokorellation steigt mit dem Abstand $\left| I-\bbbe\left[ I \right] \right|$ an. 
-Für $I<\bbbe\left[ I \right]$ hingegen weisen räumlich verbundene Lokationen tendenziell unterschiedliche Attributswerte auf. 
-Die Interpretation der c Statistik von Geary verhält sich genau umgekehrt. 
-Für Werte $c>\bbbe\left[c\right]$ liefern räumlich benachbarte Positionen tendenziell unterschiedliche Werte 
-und vice versa für $c<\bbbe\left[c\right]$. [Schabenberger Gotway 2005, p.22]
-
-Um die Signifikanz der Abweichung vom Erwartungswert zu bewerten, wird der Ausgabewert standardisiert, 
-indem der Erwartungswert abgezogen und diese Differenz durch die Wurzel der Varianz (in Abhängigkeit der räumlichen Gewichte) geteilt wird. 
+Um die Signifikanz der Abweichung vom Erwartungswert zu bewerten, wird der realisierte Index-Ausgabewert standardisiert und durch z-Werte der Standardnormalverteilung bewertet.
+%indem der Erwartungswert abgezogen und diese Differenz durch die Wurzel der Varianz (in Abhängigkeit der räumlichen Gewichte) geteilt wird. 
 \begin{equation*}
-    Z = \frac{I- \bbbe \left[ I \right] } {\sqrt{Var{I}}}
+    T (Y(s_1),\ldots,Y(s_n)) = \frac{ \hat{I}- \bbbe \left[ I \right] } {\sqrt{Var(I)}}  \sim \mathcal{N}(0,1)
 \end{equation*}
 
-Dieses Standardmaß liefert im Vergleich zur Normalverteilung eine Wahrscheinlichkeit für das Auftreten des beobachteten Statistik-Wertes unter der Nullhypothese, 
-dass keine räumliche Abhängigkeit bezüglich der gewählten räumlichen Gewichte vorliegt. 
-Zumeist ist dieser Test einseitig gerichtet, mit der Alternativhypothese, dass der realisierte Statistikwert signifikant größer als ihr 
-Erwartungswert ist (keine signifikant kleinere Realisierung erfasst). 
-Eine Ablehnung der Nullhypothese (H0:räumlich zufällige Verteilung) impliziert mit entsprechendem, (zuvor fixierten!) Niveau (e.g. 95 \% ) Sicherheit 
-dass räumliche Autokorrelation exisitiert. [Bivand 2013, p. 278]
+%\begin{equation}
+%    \frac{1}{k} \sum_{j=1}^{k} \frac{f(x_{j})}{g(x_{j})} h(x_{j}) \xlongrightarrow[\text{f.s.}]{} \bbbe_f [h(X)]
+%    \label{eq:imp-sampl-conv}
+%\end{equation}
 
-Voraussetzung für die korrekte Signifikanz im Einsatz als Test ist es, dass im Mittel kein systematisches Muster/Struktur(irung)/Formation? vorhanden ist. 
-Getestet werden ausschließlich angepasste Trend-Modelle (engl. (centring) mean model) mit konstantem (konstant worüber?) Mittel. 
-Verbleibende Muster/Autokorrelation nach der Mittelung ist auf räumliche Beziehung innerhalb der Gewichtsmatrix zurückzuführen. 
+%Durch den zentralen Grenzwertsatz (engl. Central Limit Theorem) 
+%folgt in \eqref{eq:clt} für große k punktweise Konvergenz gegen die Standardnormalverteilung.
+%
+%\begin{equation}
+%    \lim_{k\to\infty} P(Z_{k} \le z)=\Phi(z) \hspace{4em} \text{mit} \quad Z_{k}=\frac{ {\bar{h}}_{k}-\bbbe_{P}[h(X)] }{\sqrt{v_{k}}}
+%    \label{eq:clt}
+%\end{equation}
 
-In numerischen Testversuchen/läufen werden räumlich unkorrelierte Zufallswerte für jedes Gebiet/Punkt konstruiert. 
-Durch Plotten solcher „Rauschkarten“ ließe sich auch optisch kein Muster ausmachen. 
-Wird in diese Daten ein einfacher linearer Trend eingeführt, etwa durch leichte Zunahme in West-Ost Richtung, 
+Diese Pivottestgröße liefert im Bezug zur Standardnormalverteilung eine Wahrscheinlichkeit für das Auftreten 
+der beobachteten Realisierung der Statistik I unter der Nullhypothese.
+Die Nullhypothese geht von zufällig verteilten Y-Werten $y_i$ aus, sodass keine Autokorellation bezüglich der gewählten räumlichen Gewichte vorliegt.
+
+\begin{eqnarray}
+    \text{Einseitiger Test:}& ~ (H_0: \hat{I} \leq \bbbe[I] ) \quad & (H_1: \hat{I} > \bbbe[I] ) \\
+    \text{Einseitiger Test:}& ~ (H_0: \hat{I} \geq \bbbe[I] ) \quad & (H_1: \hat{I} < \bbbe[I] ) \\
+    \text{Zweiseitiger Test:}& ~ (H_0: \hat{I} = \bbbe[I] ) \quad & (H_1: \hat{I} \neq \bbbe[I])
+\end{eqnarray}
+
+Zumeist wird dieser Test in einer einseitigen Form angewendet, deren Alternativhypothese signifikant größere Realisierungen von I erfasst.
+Untersucht wird demnach auf eine mögliche Konzentration von Merkmalen mittels positiver Korrelation. 
+Eine Messung von Dispersion mittels negativer Korrelation ist weniger relevant und Realisierungen in den negativen Verteilungsrändern werden ignoriert.
+Der zweiseitige Test ist daher ebenfalls praktisch irrelevant, da beide Verteilungsränder fundamental verschiedene Situationen beschreiben. \cite[S.26]{goodchild_spatial_1986}
+
+Dank der asymptotischen Normalverteilung der I-Statistik lässt sich ein kritischer Bereich über den z-score der Standardnormalverteilung bilden.
+
+\begin{table}[h!]
+    \begin{center}
+    \begin{tabular}{c r}
+    %\hline
+        {\sc Kritischer Bereich K*}    & {\sc Alternativhypothese}  \\
+    \hline
+        {$(-\infty,-z_{1-\alpha/2}) \union (z_{1-\alpha/2},\infty)$}    & {zweiseitig: $H_1: \hat{I} \neq \bbbe[I]$} \\
+        {$(-\infty,-z_{1-\alpha}) $}                                    & {einseitig: $H_1: \hat{I} < \bbbe[I]$} \\
+        {$   (z_{1-\alpha},\infty)$}                                    & {einseitig: $H_1: \hat{I} > \bbbe[I]$} \\
+    \hline
+    \end{tabular}
+    \end{center}
+    \caption{Kritische Ablehnungsbereiche der Alternativhypothesen}
+    %\label{table_xxx}
+\end{table}
+
+Eine Ablehnung der Nullhypothese im Fall $t \in K^{*}$ impliziert zu einem zuvor fixierten Konfidenzniveau (e.g. 95\%) das Vorliegen signifikanter räumlicher Autokorrelation.
+
+Voraussetzung für die korrekte Signifikanz im Einsatz als Test ist die Abwesenheit systematischer Trends. 
+Getestet werden ausschließlich angepasste Trend-Modelle (engl. centering mean model) mit konstanten Mittelwerten über das gesamte Untersuchungsgebiet. 
+Verbleibende Autokorrelationsmuster nach der Mittelung sind auf räumliche Beziehung innerhalb der Gewichtsmatrix zurückzuführen. 
+In numerischen Testläufen lassen sich etwa räumlich unkorrelierte Zufallswerte für jede Lokation konstruieren. 
+Durch Plotten derart zufälliger „Rauschkarten“ wie in Abbildung \ref{fig_densitymaps} ließe sich kein Muster erkennen. 
+Wird in diese Daten ein einfacher linearer Trend eingeführt, wie etwa eine Abnahme der Bevölkerungsdichte in West-Ost Richtung, 
 so darf aus den Testwerten dieses Modells keine Autokorrelation abgeleitet werden. 
-Im Westen lokalisierte Werte liegen trendbedingt im Durchschnitt unter dem globalen Mittelwert und im Osten gelegene Werte darüber. 
-Es liegt jedoch hierdurch nur eine globale,lineare Verschiebung des ursprünglichen „Rauschbildes“ vor, 
-welches für lokale Nachbarschaftsbeziehungen weiterhin keinerlei Muster (bzw. Autokorrelation) erkennen ließe. 
-Trotzdem würden die globalen c und I Statistiken auf derartige globale Trends ansprechen/reagieren und signifikante Autokorrelation suggerieren, 
+Im Westen lokalisierte Werte liegen trendbedingt im Durchschnitt über dem globalen Mittelwert und im Osten gelegene Werte darunter. 
+Es liegt jedoch hierdurch nur eine globale, lineare Verschiebung des ursprünglichen „Rauschbildes“ vor, 
+welches für lokale Nachbarschaftsbeziehungen weiterhin keinerlei Korrelationsmuster erkennen ließe. 
+Trotzdem würden die globalen c und I Statistiken auf derartige globale Trends ansprechen und signifikante Autokorrelation suggerieren, 
 da sie ursprünglich für homogene Mittelwerte und Varianzen ausgelegt sind. 
-Eine derartige Fehlspezifikation des Modells kommt in der Fachliteratur durchaus vor [McMillen2003]. 
-Eine Beispielrechnung liefern [Schabenberger, Gotway 2005, pp.22-23]
+\cite[S.22]{schabenberger_statistical_2005} liefern eine aufschlussreiche Beispielrechnung. \\
 
-Da eine Annahme der Stationarität des Erwartungswert insbesondere über große Beobachtungsgebiete oft nicht sinnvoll ist, werden zwei Auswege verfolgt.
+Da eine Annahme der Stationarität des Erwartungswert insbesondere über große Beobachtungsgebiete oft unrealistisch ist, werden zwei Auswege verfolgt.
 \begin{enumerate}
-    \item Ein systematischer (linearer) Trend wird durch Kovariablen eines linearen, mittelnden Modells (engl. mean model) erfasst und korrekt gewichtet/spezifiziert, 
-    bevor ein Test der Residuen (Erwartungswert gleich Null) gültige Aussagen liefert. [Bivand S. 277] 
+    \item Ein systematischer Trend wird durch Kovariablen eines linearen Trendmodells (engl. mean model) erfasst und korrekt spezifiziert, 
+    bevor ein Test der Residuen mit Erwartungswert Null gültige Aussagen liefert. \cite[S.277]{bivand_applied_2013} 
     Für das Modell $Y(s)=X(s)\beta+e$ werden Fehlerquadrate minimiert (engl. ordinary least squares - OLS) um $\beta$ zu schätzen. 
     Die Kontrolle erfolgt mittels Moran oder Geary Statistik über die Residuen $\hat{e}_i=y_i-x\prime(s_i) \hat{\beta}$. 
-    Weitere Details im Kapitel...? [Schabenberger, Gotway 2005, p. 23]
+    Weitere Details folgen im nächsten Kapitel \ref{ch:regression} zur Regression \cite[S.23]{schabenberger_statistical_2005}.
     \item  Selbst unter global heterogenem Erwartungswert kann es sinnvoll sein, von konstanten Erwartungswerten auszugehen. 
     Unter dieser Annahme wird die Berechnung der Autokorrelation lokalisiert. 
-    Dieser LISA-Ansatz lokalisierter Indikatoren wird im folgenden Abschnitt XXX eingeführt.
+    Dieser LISA-Ansatz lokalisierter Indikatoren wird im folgenden Abschnitt \ref{ch:autocorrelation-LISA} eingeführt.
 \end{enumerate}
 
-Der Standard Morantest unter der Normalverteilugnsannahme entspricht dem Morantest der Regressionsresiduen eines Modells, welches lediglich mit einem Intercept ausgestattet wird. 
-Dies zeigt, dass zusätzliche Kovariablen eingeführt werden können (over and above the intercept?), um Missspezifikationen auszubügeln. 
-Mit der gleichen Konstruktion kann zudem eine Sattelpunkt-Appriximation statt der analytischen Normalverteilungsannahme (Tiefelsdorf 2002) 
-sowie exakter Tests (Tiefelsdorf, Hepple, Bivand) verwendet werden. 
-Diese Methoden sind jedoch numerisch aufwendig, für moderate Datensätze wie im vorliegenden Fall jedoch noch praktikabel. 
-Wie die Anwendung in Kapitel 4 zeigt, sind die Unterschiede für globale Tests gering, insbesondere falls Anzahl an Lokationen nicht klein ist. 
-Für lokale Maße sind die Unterschiede zwischen Normalverteilungsannahme und Sattelpunktapproximation und exaktem test hingegen ausgeprägter [Bivand 280].
+Aufgrund der Sensitivität der Tests bezüglich der Verteilungsannahmen und der genauen Konstruktion der 
+Nachbarschaftsbeziehungen kann auf Simulationen als Ergänzung zurückgegriffen werden.
 
-Aufgrund der Sensitivität dieser Tests bezüglich der Grundannahmen und Konstruktion der Nachbarschaftsbeziehungen wird oft auf Simulationen (als Ergänzung?) zurückgegriffen.
+% Bei einer perfekt positiven räumlichen Autokorrelation
+% sind alle benachbarten Daten identisch. Die Werte einer Beobachtung würden mit denselben
+% hohen beziehungsweise niedrigen Werten aller benachbarten Beobachtungen einhergehen
+% und folglich ein und dieselbe Information liefern. Idente Informationen enthalten
+% keine neuen Informationen und werden daher auch als redundante Informationen bezeichnet
+% (Griffith, 2009). Dieser Informationsverlust bedingt gleichzeitig den Verlust an Freiheitsgraden
+% und muss daher bei der Verwendung von statistischen Verfahren berücksichtig werden,
+% um eine mögliche Verfälschung der Schätzer zu verhindern (Anselin & Bera, 1998).
 
 \subsubsection{Monte-Carlo Simulation}
 
-In der Monte-Carlo Simulation oder bootstrap permutationsbasierten Tests werden die realisierte Attributswerte neu auf die Lokationen/räumlichen Einheiten verteilt, 
-randomisiert in vielen Zufallsläufen. 
-Im Gegensatz zur Simulation lokaler Statistiken (Referenz) liegen genug Beobachtungen für eine sehr große Anzahl Permutationen 
-zur ausreichenden Wiederholung der Simulation ohne Gefahr von Wiederholungen vor. 
-Somit werden Inferenzfehler vermieden/minimiert?. 
+In der Monte-Carlo Simulation oder bootstrap-permutationsbasierten Tests werden realisierte Attributswerte in vielen Zufallsläufen neu auf die Lokationen randomisiert verteilt. 
+Im Gegensatz zur Simulation lokaler Statistiken liegen im globalen Fall genug Beobachtungen für eine sehr große Anzahl Permutationen 
+zur ausreichenden Wiederholung der Simulation ohne Gefahr von Wiederholungen vor. Somit werden Inferenzfehler minimiert. 
 Jedoch beseitigen sie nicht die Abhängigkeit der globalen Statistik von Autokorrelationen aller möglichen Quellen 
-und liefern keine Hinweise/Anhaltspunkte zum Enstehungsprozess der Daten. 
+und liefern keine Anhaltspunkte zum Enstehungsprozess der Daten. 
 Die Simulationsanwendung darf nicht von Situationen ablenken, in denen bessere Modellanpassungen 
-oder genauere Spezifikationen der untersuchten Variablen nötig sind. [Bivand 2013, p. 278]
-Die praktische Anwendung auf die reale Datengrundlage in Kapitel 6.XX liefert weitere Details zur Berechnung und Interpretation.
+oder genauere Spezifikationen der untersuchten Variablen nötig sind. \cite[p. 278]{bivand_applied_2013}
+Die praktische Anwendung auf eine reale Datengrundlage in Kapitel \ref{ch:analysis-GISA} liefert weitere Details zur Berechnung und Interpretation.
 
-\subsubsection{Variogram}
+% \subsubsection{Variogram}
+% Räumliche Korellogramme (engl. Spatial Correlograms) bzw. Variogramme(?) dienen
 
-Räumliche Korellogramme (engl. Spatial Correlograms) bzw. Variogramme(?) dienen
+% \subsubsection{G-Statistik}
+%Getis, Ord - G-Statistic
+%AnselinRey2010 Chapter 10
 
-\subsubsection{G-Statistik}
-Getis, Ord - G-Statistic
-AnselinRey2010 Chapter 10
+% \subsubsection{H-Statistik}
 
-\subsubsection{H-Statistik}
+% \subsubsection{Kelejian-Robinson test on spatial autocorrelation}
 
 \subsection{Lokale Autokorrelationsmaße}
+\label{ch:autocorrelation-LISA}
 
 Globale Autokorrelationsmaße aggregieren über die einzelnen lokalen Nachbarschaftsbeziehungen der räumlichen Einheiten. 
-Die Statistik für Matrizen(verknüpfung?) $M_2$ von Mantel aus Abschnitt XX kann als Summe der einzelnen Beiträge $m_i$ aller Datenpunkte $s_i$ geschrieben werden.
+Die Statistik für Matrizen $M_2$ von Mantel kann als Summe der einzelnen Beiträge $m_i$ aller Datenpunkte $s_i$ geschrieben werden.
 \begin{equation}
-    M_2 = \sum_{i=1}^{n}\sum_{j=1}^{n}{w_{ij} u_{ij}} = \sum_{i=1}^{n} m_i ~ , ~ i\neq j? \text{und} m_i = \sum_{j=1}^{n} {w_{ij} u_{ij}}
+    M_2 = \sum_{i=1}^{n}\sum_{j=1}^{n}{w_{ij} u_{ij}} = \sum_{i=1}^{n} m_i ~ , ~ ~ m_i = \sum_{j=1}^{n} {w_{ij} u_{ij}}
 \end{equation}
 
 Die Beiträge $m_i$ werden hierbei als lokales Autokorrelationsmaß der Lokation $s_i$ interpretiert. 
-In gleicher Weise lassen sich Spezialisierungen von $M_2$ wie Black-White join count, die Moran I sowie Geary c Statistik in ihre lokalen Einzelbestandteile zerlegen 
-und lokale Tests konstruieren [Schabenberger, Gotway 2005, p. 23]. 
+In gleicher Weise lassen sich Spezialisierungen von $M_2$ wie die globalen Autokorrelationsindizes in ihre lokalen Einzelbestandteile zerlegen 
+und lokale Tests konstruieren \cite[S.23]{schabenberger_statistical_2005}. \\
 
-Mit ihrer Hilfe sollen zum einen räumliche Anhäufungen und Zusammenballungen (engl. Cluster), also Beobachtungen mit sehr ähnlichen Nachbarn (bezüglich des Attributs) ermittelt werden. 
-Zum anderen werden lokale Hochburgen bzw. stationäre Schwerpunkte mit außergewöhnlichen Spitzenwerten / kritische Risiko-bzw. Gefahrenherd (engl. Hotspots), 
-das heißt Beobachtungen mit sehr unterschiedlichen Nachbarn, erfasst /sondiert werden.
+Mit ihrer Hilfe sollen zum einen räumliche Anhäufungen und Konzentrationen (engl. Cluster), 
+also Beobachtungen mit sehr ähnlichen Nachbarn bezüglich des Attributs, ermittelt werden. 
+Zum anderen werden lokale Hochpunkte bzw. stationäre Schwerpunkte mit außergewöhnlichen Spitzenwerten (engl. Hotspots) erfasst, 
+deren Beobachtungen sehr von denen ihrer Nachbarn abweichen.
 
+Durch Anselin (1995) wurde eine spezielle Klasse lokaler Indikatoren zur Messung räumlicher Beziehung 
+(engl. Local Indicators of spatial association) ($\mathbf{LISA}$) eingeführt. 
+Durch Zerlegung globaler Statistiken wie Moran’s I und Geary’s c sollen besonders signifikante Beobachtungen sowie Ausreißer gefunden werden. 
+Besonderheiten für ein LISA-Maß sind:
+\begin{enumerate}
+    \item Messung des Grades räumlicher Autokorellation im Umkreis einer Lokation.
+    \item Berechnung für jede einzelne Lokation ist getrennt möglich.
+    \item Summe über alle Lokationen ist proportional zu einem globalen Maß.
+\end{enumerate}
+
+\subsubsection{Lokaler Gearyscher Index}
+
+Die $n$ lokalen Einzelindizes $c_i=c(s_i)$ werden für jede Lokation $s_i$ ermittelt.
+\begin{equation}
+    c_i=\frac{\sum_{j=1}^{n} {w_{ij}\left(y_i-y_j\right)^2}}  { 1 \big/ n \sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2}    ~ ,  i\neq j, ~ \text{für j innerhalb d von i }
+\end{equation}
+In Abhängigkeit des Proportionalitätsfaktors $\gamma$ werden die Einzelindizes zum zum globalen Geary Index $c$ aufsummiert.
+\begin{equation*}
+    \gamma=\frac{2n}{(n-1)} \sum_{i=1}^{n}\sum_{j=1}^{n} w_{ij}
+\end{equation*}
+
+\subsubsection{Lokaler Moran Index}
+Die $n$ lokalen Einzelindizes $I_i=I(s_i)$ werden für jede Lokation $s_i$ ermittelt und proportional über $\gamma$ zum globalen Moran Index $I$ aufsummiert. 
+Die lokalen Moran-Statistiken $I_i=I(s_i)$ sind als Kreuzprodukt skalierter Attributswerte $y_i=Y(s_i)$ zwischen 
+einer Lokation $s_i$ und ihren Nachbarn $s_j$ konstruiert und definiert als
+\begin{equation}
+    I_i=\frac{\left(y_i-\bar{y}\right)\sum_{j=1}^{n}{w_{ij}\left(y_j-\bar{y}\right)}} {1 \big/ n \sum_{j=1}^{n} \left(y_j-\bar{y}\right)^2 } ~ , ~ i\neq j, ~ \text{für j innerhalb d von i} 
+\end{equation}
+Der Proportionalitätsfaktor beträgt
+\begin{equation*}
+    \gamma=\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{n} { w_{ij} \sum_{i=1}^{n} \left(y_i-\bar{y}\right)^2 }    
+\end{equation*}
+Der Erwartungswert beträgt unter der Randomisierungsannahme nicht vorhandener Autokorrelation.
+\begin{equation*}
+    {\bbbe_r}[I_i]= \frac{-1}{n-1} \sum_{j=1}^{n} w_{ij} 
+\end{equation*}
+Die Statistik misst somit die Stärke des Beitrags zur globalen Autokorrelation einer Beobachtung $y_i$ in Bezug zu ihren Nachbarn $y_j$. 
+Die Interpretation erfolgt analog zum globalen Fall. 
+Für $I_i > \bbbe[I_i]$ weisen mit die Raumeinheit $s_i$ verbundenen Positionen ähnliche Werte zu $y_i$ auf. 
+Diese lokal positive Autokorrelation weist auf Cluster hin und bedeutet, dass derartige hohe Werte an derartigen Positionen von weiteren hohen Werten umgeben sind, 
+und geringe Werte überwiegend von weiteren geringen Werten. 
+Für $I_i< \bbbe[I_i]$ haben mit Position $s_i$ verbundene Lokationen überwiegend abweichende Werte. 
+Hohe Werte sind von geringen Werten umgeben und umgekehrt, was auf Hot-Spots und Cold-Spots hinweist. 
+Es liegt dann lokal negative Autokorrelation vor. 
+Ein stark negativer Wert deutet zudem auf Ausreisser hin \cite[S. 24]{schabenberger_statistical_2005}.\\
+
+Zur Visualisierung signifikanter räumlicher Cluster oder Hot-Spots werden nicht die lokalen $I_i$-Werte direkt visualisiert, sondern ihre Werte aus dem Moran Scatter Plot. 
+In diesem Plot wird jeweils ein standardisiertea Attribut $y_i$ gegen den standardisierten Durchschnittswert der 
+räumlichen Nachbarschaft dieser Beobachtung (engl. spatial lag) gemäß Gewichtsmatrix $W$ geplottet. 
+In dieser Abhängigkeit ihrer Nachbarschaftsbeziehungen (engl. spatial neighbourhood association) werden die Werte in vier Klassen gesammelt. 
+Möglich sind hierbei hotspots, coldspots sowie 2 Arten von clustern. 
+Die statistisch signifikanten Einheiten werden in der Karte hervorgehoben und nach ihrer Konzentrationsklasse farblich repräsentiert. 
+Diese Karten werden als LISA-maps bezeichnet. Genaue Details und Beispielrechnugen sind in Abschnitt \ref{ch:analysis-LISA} ausgeführt.
+
+Wie auch bei globalen Statistiken kann für lokale Statistiken die Abweichung vom Erwartungswert unter verschiedenen Annahmen getestet werden. 
+Möglich sind die Annahme der Normalverteilung, analytischer Randomisierung, numerischer Sattelpunkt Approximation und exakte Methoden. 
+
+Für Autokorrelationstests werden zunächst die Momente der $I_i$-Verteilung genutzt. 
+Die genauen Verteilungseigenschaften der Autokorrelationsstatistiken sind nicht eindeutig. 
+Gauß-Approximationen funkitonieren für lokale Statistiken weniger gut als für die globalen Maße. 
+Die Anzahl der Nachbarn jeder Beobachtung ist für gewöhnlich klein, wodurch die Annahme der Normalverteilung problematisch ist. 
+Als zweite Alternative wird die bedingte Randomisierung präferiert, 
+da eine sonst vorhandene globale Autokorrelation die Interpretation der $I_i$ beeinflusst \cite[S. 271]{fischer_handbook_2010}.
+Für diese Randomisierung schlägt Anselin (1995) daher zusätzliche Bedingung vor, sodass Attributswert der Stelle $i$ nicht permutiert wird. 
+Die Implementierung der Permutation kann im lokalen Fall beschleunigt werden, da nur Nachbarwerte permutiert werden. 
+Jedoch weisen Besag und Newell (1991) sowie Waller und Gotway (2004) darauf hin, dass 
+bei heterogenen Erwartungswerten und Varianzen, die Ransomisierungsannahme unzulässig ist. 
+Ein einigen Fällen macht die Idee der Permutation wenig Sinn. Daher wird der Einsatz von Monte-Carlo Tests empfohlen.
+Unter Einsatz numerischer Methoden werden Sattelpunkt-Approximation oder exakte Wahrscheinlichkeitswerte ermittelt.
+
+Lokalisierte Autokorrelationsmaße werden vor allem als exploratives Werkzeug empfohlen, sind jedoch mitunter schwierig zu interpretieren. 
+Es wird explizit abgeraten, sie zur statistischen Bestätigung zu nutzen. 
+Auf einem Gitter mit n Lokationen werden n lokale Maße ermittelt, welche jedoch nicht einzeln auf Autokorrelation getestet werden können (engl. multiplicity problem). 
+Selbst unter Abwesenheit von Autokorellation sind die $I_i$ korreliert, sobald dieselben Lokationen mehrfach involviert sind. \cite[S. 25]{schabenberger_statistical_2005}.
+%(not clear how to adjust individual type-I error levels to maintain a desired overall level
+
+% (bonferoni??)
+
+Das Aufspüren lokaler Autokorrelation bei gleichzeitig vorliegender globaler Autokorrelation ist anspruchsvoll. 
+Die Ergebnisse lokaler Abhängigkeitstests sind daher als bedingt durch globale Autokorrelation zu betrachten 
+und werden allgemein durch zugrundeliegende Prozesse, welche die Daten generieren, beeinflusst. 
+Dieser indirekte Einfluss besteht womöglich entlang einer Bandbreite an globaler bis lokaler 
+Größenordnung außerhalb der konkreten Beobachtungsreichweite.
+Das Aufspüren lokaler und globaler räumlicher Autokorrelation ist kein Selbstzweck für sich, sondern ein Zwischenschritt im komplexen Konstruktionsprozess eines adequaten Modells.

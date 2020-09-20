@@ -1,36 +1,51 @@
 \chapter{Einführung} %engl. "Introduction"
 
-A good proportion of the data out there in the real world is inherently spatial. 
-From the population recorded in the national census, to every shop in your neighborhood, 
-the majority of datasets have a location aspect that you can exploit to make the most of what they have to offer.
 
-You will then combine different sources using their location as the bridge that puts them in relation to each other, allowing you to transform and repurpose them in different contexts.
+Ein Großteil aller uns umgebenden Informationen weist einen inhärent räumlichen Bezug auf, oft ohne dass wir diesen bewusst wahrnehmen.
+Die räumliche und zeitliche Orientierung sind fundamentale Achsen der Informationsverarbeitung, 
+von makroskopischen Sternenformationen über mikroskopische Proteinfaltungen hin zu unserer persönlichen Mobilität im Alltag. 
+Wir nutzen diese Achsen, um alle weiteren Informationen in Beziehungen zu setzen, zu transformieren und im neuen Kontext zu verwenden. 
+Diese Arbeit gibt einen Einblick in die wissenschaftliche Analyse räumlicher Daten 
+zum Verständnis komplexer naturwissenschaftlicher und sozialer Phänomen.\\
 
-Quantitative Revolution der Geographie?
+Es werden in dieser Arbeit Methoden der \emph{raumdatenbezogenen Statistik} (engl. Spatial Statistics) untersucht und angewendet. 
+Über die historischen Analysen mathematischer Zusammenhänge von Datenpunkten mit räumlichen Bezug zueinander wird in Kapitel \ref{ch:classification} berichtet.
+Darüber hinaus hat die Anwendung auf reale Datensätze starken interdisziplinären Charakter. 
+Der Forschungszweig der \emph{Spatial Analysis} im geografischen Kontext mit \emph{Geoinformationssystemen (GIS)} ist in dieser Hinsicht vergleichsweise jung. 
+Die ersten bahnbrechenden Arbeiten stammen aus den späten 1950er Jahren und wurden grundlegend von der 
+Entwicklung der Informationstechnologie (engl. \glqq Geography Quantitative Revolution\grqq) getrieben. 
+Im Prinzip handelt es sich zu Beginn um die direkte Verknüpfung der Kartographie mit computergestützen Datenbanken.
+Als wichtige Wegbereiter sind Roger F. Tomlinson am \emph{Canada Geographic Information System} sowie 
+Howard T. Fisher als Gründer des \emph{Harvard Laboratory for Computer Graphics and Spatial Analysis} bekannt.
 
-Setting out the aims and objectives of your project, explaining the overall intention of the project and specific steps that will be taken to achieve that intention.
+Die Überschneidungen der Geographie und Geologie, Biologie, Hydrographie, Meteorologie und 
+vielen weiteren Fachgebieten begünstigte die Verbreitung dieser neuen Methodologie und Technologie. 
+Weitere Anwendungsbeispiele unter Implementierung ähnliche Algorithmen und statistischer Methoden finden sich 
+in der Ökologie (e.g. makroskopische Verteilungen von Lebensräumen, mikroskopische Proteinfaltungen), 
+Soziologie (Entwicklung von Migrationsströmen), Anthropologie (Ausbreitungsmuster historischer Siedlungen),  
+Astronomie und Kosmologie (Systemformationen und Galaxiencluster) sowie Neurologie (Auswertung von Gehirnscans). 
+In der Informatik entwickelt der Bereich \emph{Spatial Data Mining} neue Algorithmen zur effizienten Verarbeitung großer 
+Datenmengen mit Raumbezug und Nachbarschaftsbeziehungen.\\
 
-\section{Motivation}
+Seit den frühen Tagen der Geoinformationstechnologie werden rasante Fortschritte erzielt.
+Durch technische Errungenschaften wie etwa LIDAR, Dronen oder Formationen von Minisatteliten werden immense Ströme an Geodaten generiert.
+Diese dienen etwa der landwirtschaftlichen Analyse von Feldern, der Sichtung illegaler Schifffahrts- oder Bebauungs- und Rodungsaktivitäten, 
+der Fernüberwachung des Bewuchses von Bahntrassen und vielem mehr. 
 
-Explaining the problem being solved.
+Klassische Industrien und Einsatzgebiete zur Auswertung von georeferenzierten Daten umfassen nunmehr die Agrar- und Forstwirtschaft, 
+Bergbau- und Förderindustrien, Luft- und Raumfahrt, Navigation, Nautik und maritime Wirtschaft, 
+Sicherheitstechnik- und Rüstungsindustrie, Transport- und Logistik, Anlagen- und Immobilienerfassung sowie Kataster und Stadtplanung, 
+Infrastruktur und Instandhaltung  von Schienen-, Telekommunikation-, Wasser-, Pipeline- und Stromnetzen, Katastrophenmanagement, 
+Naturschutzgebiet- und Wildtierüberwachung und viele weitere. \\
 
+Die Motivation dieser Bachelorarbeit liegt in einer möglichst breiten Aufgliederung vieler Aspekte, 
+ohne umfangreiche Details und tiefere Analysen leisten zu können, wie sie etwa ein Handbuch bietet .  
+Der Fokus liegt auf einer schnell und einfach lesbaren Aufbereitung der Grundlagen räumlicher Statistik mit einer groben Einteilung wichtiger Teilgebiete, 
+sodass dem Leser eine schnelle und effiziente Übersicht über einen großen Forschungszweig zu seiner eigenen Orientierung gegeben wird.
 
-\section{Aims and Objectives}
-
-Ziele und Vorgaben der Arbeit.
-
-Als Bachelorarbeit liegt die Absicht in einer möglichst breiten Aufgliederung vieler Aspekte, ohne (im Gegensatz zu einem Handbuch) Details und tiefere Analyse leisten zu können.  
-Der Fokus liegt auf einer schnell und einfach lesbaren Aufbereitung der Grundlagen räumlicher Statistik mit einer groben Einteilung der größten Teilgebiete, 
-sodass dem Leser eine schnelle und effiziente Übersicht über einen großen Forschungszweig zur eigenen Orientierung gegeben wird.
-
-Zugleich wird die Anwendung auf ein spezielles Thema einen beispielhaften Einblick in den Prozess einer Modellbildung und die Pipeline der Datenanalyse 
-zur Orientierung geliefert.
-
-Dieser Spagat zwischen theoretischer Abstrahierung und praktischer Anwendung soll ein Gefühl der Anwendbarkeit und Relevanz vermitteln und die Bandbreite verdeutlichen.
-
-
-\section{Description of the work}
-
-Explaining what your project is meant to achieve, how it is meant to function, perhaps even a functional specification.
-
-
+Zugleich wird durch die praktische Anwendung auf lokale Geodaten ein beispielhafter Einblick 
+in den Prozess der Modellbildung und die Pipeline der Datenanalyse geliefert. 
+Dieser Spagat zwischen theoretischer Abstrahierung und praktischer Anwendung soll einen Eindruck der 
+Anwendbarkeit und Relevanz vermitteln und die Bandbreite an Anwendungsmöglichkeiten verdeutlichen. 
+Dies möge den Leser zu eigenen Projekten motivieren und ihm 
+zusätzliche Werkzeuge und Fähigkeiten zur Analyse der immensen Datensätze zu liefern, welche inzwischen auch frei verfügbar sind.
